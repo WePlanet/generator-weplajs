@@ -48,6 +48,7 @@ module.exports = yeoman.Base.extend({
     this.fs.copyTpl(
         this.templatePath('app'),
         this.destinationPath('app'), {
+          name: this.props.name,
           dbName: this.props.dbName,
           dbUser: this.props.dbUser,
           dbPass: this.props.dbPass,
@@ -72,6 +73,6 @@ module.exports = yeoman.Base.extend({
   },
 
   install: function () {
-    this.installDependencies();
+    this.npmInstall();
   }
 });

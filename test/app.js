@@ -6,13 +6,16 @@ var helpers = require('yeoman-test');
 describe('generator-weplajs:app', function () {
   before(function () {
     return helpers.run(path.join(__dirname, '../generators/app'))
-      .withPrompts({someAnswer: true})
+      .withPrompts({name: 'project-name'})
       .toPromise();
   });
 
   it('creates files', function () {
     assert.file([
-      'dummyfile.txt'
+      'package.json',
+      'README.md',
+      'app',
+      'bin'
     ]);
   });
 });
