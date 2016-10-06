@@ -2,19 +2,25 @@
   "name": "generator-weplajs",
   "version": "0.0.1",
   "description": "REST API server by expressjs framework ",
-  "homepage": "",
+  "homepage": "https://github.com/WePlanet/generator-weplajs",
+  "bugs": "https://github.com/WePlanet/generator-weplajs/issues",
   "author": {
     "name": "jeonghwan-kim",
     "email": "ej88ej@gmail.com",
-    "url": ""
+    "url": "http://blog.jeonghwan.net"
   },
   "files": [
     "generators"
   ],
   "main": "generators/index.js",
   "keywords": [
-    "",
-    "yeoman-generator"
+    "yeoman-generator",
+    "rest-api",
+    "express",
+    "sequelize",
+    "mysql",
+    "back-end",
+    "framework"
   ],
   "dependencies": {
     "yeoman-generator": "^0.23.0",
