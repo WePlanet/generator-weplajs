@@ -48,7 +48,7 @@
       "mocha": true
     }
   },
-  "repository": "jeonghwan-kim/generator-weplajs",
+  "repository": "WePlanet/generator-weplajs",
   "scripts": {
     "prepublish": "gulp prepublish",
     "test": "gulp"
