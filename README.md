@@ -57,3 +57,12 @@ npm test
 ```
 
 ![](imgs/test-results.png)
+
+
+## API 추가
+
+API를 추가할 때는 리소스 이름을 사용합니다. 
+
+```
+yo weplajs:api
+```
