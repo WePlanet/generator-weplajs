@@ -71,7 +71,13 @@ module.exports = yeoman.Base.extend({
         });
   },
 
-  install: function () {
-    // this.installDependencies();
+  end: function () {
+    require('../util').rewrite({
+      file: 'app/routes.js',
+      needle: '// Insert routes below',
+      splicable: [
+        `app.use('/v1/${this.props.resNm}s', require('./api/v1/${this.props.resNm}'));`
+      ]
+    });
   }
 });
