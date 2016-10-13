@@ -12,9 +12,9 @@ describe('<%= ResNm %>', () => {
   describe('GET /<%= resNm %>s', () => {
     let <%= resNm %>s = [{name: 'name1'}, {name: 'name2'}, {name: 'name3'}];
 
-    before('Insert seed data', done => helper.insertSeed(models[<%= ResNm %>], <%= resNm %>s, done));
+    before('Insert seed data', done => helper.insertSeed(models['<%= ResNm %>'], <%= resNm %>s, done));
 
-    after('Delete seed data', done => helper.deleteSeed(models[<%= resNm %>], <%= resNm %>s, done));
+    after('Delete seed data', done => helper.deleteSeed(models['<%= ResNm %>'], <%= resNm %>s, done));
 
     it('should return 200 status code and array', done => {
       request(app)
@@ -31,9 +31,9 @@ describe('<%= ResNm %>', () => {
   describe('GET /<%= resNm %>s/:id', () => {
     let <%= resNm %>s = [{name: 'name1'}];
 
-    before('Insert seed data', done => helper.insertSeed(models[<%= ResNm %>], <%= resNm %>s, done));
+    before('Insert seed data', done => helper.insertSeed(models['<%= ResNm %>'], <%= resNm %>s, done));
 
-    after('Delete seed data', done => helper.deleteSeed(models.<%= ResNm %>, <%= resNm %>s, done));
+    after('Delete seed data', done => helper.deleteSeed(models['<%= ResNm %>'], <%= resNm %>s, done));
 
     it('should return 200 status code and an object', done => {
       request(app)
@@ -65,7 +65,7 @@ describe('<%= ResNm %>', () => {
           .end((err, res) => {
             if (err) throw err;
             res.body.should.have.property('error');
-            res.body.error.code.should.be.equal('noUser');
+            res.body.error.code.should.be.equal('notFound');
             done();
           });
     });
@@ -74,12 +74,12 @@ describe('<%= ResNm %>', () => {
   describe('POST /<%= resNm %>s', () => {
     let <%= resNm %>s = [{name: 'name1'}];
 
-    after('Delete seed data', done => helper.deleteSeed(models[<%= ResNm %>], users, done));
+    after('Delete seed data', done => helper.deleteSeed(models['<%= ResNm %>'], <%= resNm %>s, done));
 
     it('should return 201 status code and new id', done => {
       request(app)
           .post('/v1/<%= resNm %>s')
-          .send(users[0])
+          .send(<%= resNm %>s[0])
           .expect(201)
           .end((err, res) => {
             if (err) throw err;
@@ -118,9 +118,9 @@ describe('<%= ResNm %>', () => {
   describe('PUT /<%= resNm %>s/:id', () => {
     let <%= resNm %>s = [{name: 'name1'}];
 
-    before('Insert seed data', done => helper.insertSeed(models[<%= ResNm %>], <%= resNm %>s, done));
+    before('Insert seed data', done => helper.insertSeed(models['<%= ResNm %>'], <%= resNm %>s, done));
 
-    after('Delete seed data', done => helper.deleteSeed(models[<%= ResNm %>], <%= resNm %>s, done));
+    after('Delete seed data', done => helper.deleteSeed(models['<%= ResNm %>'], <%= resNm %>s, done));
 
     it('should return 200 status code and an updated object', done => {
       request(app)
@@ -153,7 +153,7 @@ describe('<%= ResNm %>', () => {
           .end((err, res) => {
             if (err) throw err;
             res.body.should.have.property('error');
-            res.body.error.code.should.be.equal('noUser');
+            res.body.error.code.should.be.equal('notFound');
             done();
           });
     });
@@ -162,9 +162,9 @@ describe('<%= ResNm %>', () => {
   describe('DELETE /<%= resNm %>s/:id', () => {
     let <%= resNm %>s = [{name: 'name1'}];
 
-    before('Insert seed data', done => helper.insertSeed(models[<%= ResNm %>], <%= resNm %>s, done));
+    before('Insert seed data', done => helper.insertSeed(models['<%= ResNm %>'], <%= resNm %>s, done));
 
-    after('Delete seed data', done => helper.deleteSeed(models[<%= ResNm %>], <%= resNm %>s, done));
+    after('Delete seed data', done => helper.deleteSeed(models['<%= ResNm %>'], <%= resNm %>s, done));
 
     it('should return 204 status code', done => {
       request(app)
@@ -192,7 +192,7 @@ describe('<%= ResNm %>', () => {
           .end((err, res) => {
             if (err) throw err;
             res.body.should.have.property('error');
-            res.body.error.code.should.be.equal('noUser');
+            res.body.error.code.should.be.equal('notFound');
             done();
           });
     });

@@ -7,9 +7,6 @@ const rewrite = args => {
 
   let otherwiseLineIndex = -1;
   lines.forEach((line, i) => {
-
-    console.log('line:', line);
-
     if (line.indexOf(args.needle) !== -1) {
       otherwiseLineIndex = i;
     }

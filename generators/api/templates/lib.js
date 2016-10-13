@@ -4,14 +4,14 @@ const models = require('../models');
 const errors = require('../components/errors');
 
 exports.index = (limit, offset) => {
-  return models[<%= ResNm %>].findAll({
+  return models['<%= ResNm %>'].findAll({
     limit: limit,
     offset: offset
   });
 };
 
 exports.show = id => {
-  return models[<%= ResNm %>].findOne({
+  return models['<%= ResNm %>'].findOne({
     where: {
       id: id
     }
@@ -19,7 +19,7 @@ exports.show = id => {
 };
 
 exports.create = name => {
-  return models[<%= ResNm %>].create({
+  return models['<%= ResNm %>'].create({
     name: name
   }).catch(err => {
     if (err.name  === 'SequelizeUniqueConstraintError') {
@@ -30,7 +30,7 @@ exports.create = name => {
 };
 
 exports.update = (id, name) => {
-  return models[<%= ResNm %>].findOne({
+  return models['<%= ResNm %>'].findOne({
     where: {
       id: id
     }
@@ -45,7 +45,7 @@ exports.update = (id, name) => {
 };
 
 exports.destroy = id => {
-  return models[<%= ResNm %>].destroy({
+  return models['<%= ResNm %>'].destroy({
     where: {
       id: id
     }

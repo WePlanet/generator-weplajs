@@ -18,7 +18,7 @@ module.exports = {
     return Promise.resolve()
         .then(() => <%= ResNm %>.show(id))
         .then(<%= resNm %> => {
-          if (!<%= resNm %>) throw new errors.NotFound(errors.Codes.NoUser);
+          if (!<%= resNm %>) throw new errors.NotFound(errors.Codes.NotFound);
           return <%= resNm %>;
         });
   },
@@ -51,8 +51,8 @@ module.exports = {
     return Promise.resolve()
         .then(() => <%= ResNm %>.update(id, name))
         .catch(err => {
-          if (err === errors.Codes.NoUser) {
-            throw new errors.NotFound(errors.Codes.NoUser);
+          if (err === errors.Codes.NotFound) {
+            throw new errors.NotFound(errors.Codes.NotFound);
           }
           throw err;
         })
@@ -66,8 +66,8 @@ module.exports = {
         .then(() => <%= ResNm %>.destroy(id))
         .then(() => ({statusCode: 204}))
         .catch(err => {
-          if (err === errors.Codes.NoUser) {
-            throw new errors.NotFound(errors.Codes.NoUser);
+          if (err === errors.Codes.NotFound) {
+            throw new errors.NotFound(errors.Codes.NotFound);
           }
           throw err;
         });
