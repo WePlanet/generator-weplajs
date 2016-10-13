@@ -74,8 +74,8 @@ module.exports = yeoman.Base.extend({
 
   initializing: function () {
     this.composeWith('weplajs:api', {
-      resNm: 'user',
-      v: 'v1'
+      resourceName: 'user',
+      version: 'v1'
     });
   },
 

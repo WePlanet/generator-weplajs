@@ -1,7 +1,7 @@
 'use strict';
 
 const router = require('express').Router();
-const ctrl = require('./<%= resNm %>.ctrl.js');
+const ctrl = require('./<%= resource %>.ctrl.js');
 const api = require('../../');
 
 router.get('/', api.http(ctrl.index));

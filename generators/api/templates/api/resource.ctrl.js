@@ -1,6 +1,6 @@
 'use strict';
 
-const <%= ResNm %> = require('../../../lib/<%= ResNm %>');
+const <%= Resource %> = require('../../../lib/<%= Resource %>');
 const errors = require('../../../components/errors');
 
 module.exports = {
@@ -8,7 +8,7 @@ module.exports = {
   index: options => {
     const limit = parseInt(options.limit, 10) || 10;
     const offset = parseInt(options.offset, 10) || 0;
-    return <%= ResNm %>.index(limit, offset);
+    return <%= Resource %>.index(limit, offset);
   },
 
   show: options => {
@@ -16,10 +16,10 @@ module.exports = {
     if (!id) throw new errors.BadRequest(errors.Codes.InvalidId);
 
     return Promise.resolve()
-        .then(() => <%= ResNm %>.show(id))
-        .then(<%= resNm %> => {
-          if (!<%= resNm %>) throw new errors.NotFound(errors.Codes.NotFound);
-          return <%= resNm %>;
+        .then(() => <%= Resource %>.show(id))
+        .then(<%= resource %> => {
+          if (!<%= resource %>) throw new errors.NotFound(errors.Codes.NotFound);
+          return <%= resource %>;
         });
   },
 
@@ -28,10 +28,10 @@ module.exports = {
     if (!name.length) throw new errors.BadRequest(errors.Codes.EmptyName);
 
     return Promise.resolve()
-        .then(() => <%= ResNm %>.create(name))
-        .then(<%= resNm %> => {
-          <%= resNm %>.statusCode = 201;
-          return <%= resNm %>;
+        .then(() => <%= Resource %>.create(name))
+        .then(<%= resource %> => {
+          <%= resource %>.statusCode = 201;
+          return <%= resource %>;
         })
         .catch(err => {
           if (err === errors.Codes.Conflict) {
@@ -49,7 +49,7 @@ module.exports = {
     if (!name.length) throw new errors.BadRequest(errors.Codes.EmptyName);
 
     return Promise.resolve()
-        .then(() => <%= ResNm %>.update(id, name))
+        .then(() => <%= Resource %>.update(id, name))
         .catch(err => {
           if (err === errors.Codes.NotFound) {
             throw new errors.NotFound(errors.Codes.NotFound);
@@ -63,7 +63,7 @@ module.exports = {
     if (!id) throw new errors.BadRequest(errors.Codes.InvalidId);
 
     return Promise.resolve()
-        .then(() => <%= ResNm %>.destroy(id))
+        .then(() => <%= Resource %>.destroy(id))
         .then(() => ({statusCode: 204}))
         .catch(err => {
           if (err === errors.Codes.NotFound) {

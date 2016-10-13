@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = function(sequelize, DataTypes) {
-  const <%= ResNm %> = sequelize.define('<%= ResNm %>', {
+  const <%= Resource %> = sequelize.define('<%= Resource %>', {
     name: {
       type:DataTypes.STRING,
       unique: true
@@ -12,5 +12,5 @@ module.exports = function(sequelize, DataTypes) {
     }
   });
 
-  return <%= ResNm %>;
+  return <%= Resource %>;
 };
