@@ -11,7 +11,7 @@ module.exports = yeoman.Base.extend({
   prompting: function () {
     // Have Yeoman greet the user.
     this.log(yosay(
-        'Make new REST API by ' + chalk.red('generator-weplajs') + ' generator!'
+      'Make ' + chalk.red('your first api ')
     ));
 
     var prompts = [{

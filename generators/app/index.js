@@ -7,7 +7,7 @@ module.exports = yeoman.Base.extend({
   prompting: function () {
     // Have Yeoman greet the user.
     this.log(yosay(
-      'Welcome to the stupendous ' + chalk.red('generator-weplajs') + ' generator!'
+      'Make new REST API by ' + chalk.red('generator-weplajs') + ' generator!'
     ));
 
     var prompts = [{
@@ -35,7 +35,7 @@ module.exports = yeoman.Base.extend({
       type: 'input',
       name: 'dbPass',
       message: 'Database password?',
-      default: 'toor'
+      default: 'root'
     }];
 
     return this.prompt(prompts).then(function (props) {
@@ -70,6 +70,13 @@ module.exports = yeoman.Base.extend({
         this.destinationPath('README.md'), {
           name: this.props.name
         });
+  },
+
+  initializing: function () {
+    this.composeWith('weplajs:api', {
+      resNm: 'user',
+      v: 'v1'
+    });
   },
 
   install: function () {
