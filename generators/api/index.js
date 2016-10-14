@@ -4,6 +4,8 @@ const yeoman = require('yeoman-generator');
 const chalk = require('chalk');
 const yosay = require('yosay');
 const util = require('../util');
+const fs = require('fs');
+const path = require('path');
 
 module.exports = yeoman.Base.extend({
   prompting() {
@@ -70,12 +72,31 @@ module.exports = yeoman.Base.extend({
 
   end() {
     const r = this.props.resourceName;
+    const R = util.capitalize(r);
 
     util.rewrite({
       file: 'app/routes.js',
       needle: '// Insert routes below',
       splicable: [
         `app.use('/v1/${r}s', require('./api/v1/${r}'));`
+      ]
+    });
+
+    util.rewrite({
+      file: 'app/config/swagger/v1.doc.js',
+      needle: '// Tags will be here',
+      splicable: [
+        `${R}: '${R}',`
+      ]
+    });
+
+    util.rewrite({
+      file: 'app/config/swagger/v1.doc.js',
+      needle: '// Path will be here',
+      splicable: [
+        fs.readFileSync(path.join(__dirname, './templates/swagger.js'), 'utf8')
+            .replace(/\<\=\% resource \=\>/g, r)
+            .replace(/\<\=\% Resource \=\>/g, R)
       ]
     });
   }

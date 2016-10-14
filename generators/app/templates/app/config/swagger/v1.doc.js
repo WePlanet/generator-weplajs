@@ -1,8 +1,9 @@
 "use strict";
 
 const pkg = require('../../../package.json');
-const TAGS = {
-  USER: 'User'
+const tags = {
+  // Tags will be here
+
 };
 
 const parameters = {
@@ -20,7 +21,7 @@ const parameters = {
     in: 'query',
     default: 0
   },
-  UserName: {
+  Name: {
     name: 'body',
     required: true,
     in: 'body',
@@ -33,7 +34,7 @@ const parameters = {
       }
     }
   },
-  UserId: {
+  Id: {
     name: 'id',
     type: 'number',
     required: true,
@@ -47,75 +48,8 @@ const definitions = {
 };
 
 const paths = {
-  '/users': {
-    get: {
-      tags: [TAGS.USER],
-      summary: 'Get user list',
-      operationId: 'getUsers',
-      parameters: [
-        {$ref: '#/parameters/Offset'},
-        {$ref: '#/parameters/Limit'}
-      ],
-      responses: {
-        200: {description: 'Success'},
-      }
-    },
-    post: {
-      tags: [TAGS.USER],
-      summary: 'Create an user',
-      operationId: 'createUser',
-      parameters: [
-        {$ref: '#/parameters/UserName'}
-      ],
-      responses: {
-        201: {description: 'Created'},
-        400: {description: 'Bad Request'},
-        409: {description: 'Conflict'},
-      }
-    }
-  },
-  '/users/{id}': {
-    get: {
-      tags: [TAGS.USER],
-      summary: 'Get user by id',
-      operationId: 'getUserById',
-      parameters: [
-        {$ref: '#/parameters/UserId'},
-      ],
-      responses: {
-        200: {description: 'Success'},
-        400: {description: 'Bad Request'},
-        404: {description: 'Not Found'},
-      }
-    },
-    delete: {
-      tags: [TAGS.USER],
-      summary: 'Remove user by id',
-      operationId: 'removeUserById',
-      parameters: [
-        {$ref: '#/parameters/UserId'},
-      ],
-      responses: {
-        204: {description: 'No Content'},
-        400: {description: 'Bad Request'},
-        404: {description: 'Not Found'},
-      }
-    },
-    put: {
-      tags: [TAGS.USER],
-      summary: 'Update user by id',
-      operationId: 'updateUserById',
-      parameters: [
-        {$ref: '#/parameters/UserId'},
-        {$ref: '#/parameters/UserName'}
-      ],
-      responses: {
-        200: {description: 'Success'},
-        400: {description: 'Bad Request'},
-        404: {description: 'Not Found'},
-      }
-    }
-  }
+  // Path will be here
+
 };
 
 module.exports = {
