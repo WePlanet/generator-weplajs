@@ -1,16 +1,17 @@
 'use strict';
-var yeoman = require('yeoman-generator');
-var chalk = require('chalk');
-var yosay = require('yosay');
+
+const yeoman = require('yeoman-generator');
+const chalk = require('chalk');
+const yosay = require('yosay');
 
 module.exports = yeoman.Base.extend({
-  prompting: function () {
+  prompting() {
     // Have Yeoman greet the user.
     this.log(yosay(
       'Make new REST API by ' + chalk.red('generator-weplajs') + ' generator!'
     ));
 
-    var prompts = [{
+    const prompts = [{
       type: 'input',
       name: 'name',
       message: 'Project name?',
@@ -38,13 +39,13 @@ module.exports = yeoman.Base.extend({
       default: 'root'
     }];
 
-    return this.prompt(prompts).then(function (props) {
+    return this.prompt(prompts).then(props => {
       // To access props later use this.props.someAnswer;
       this.props = props;
-    }.bind(this));
+    });
   },
 
-  writing: function () {
+  writing() {
     this.fs.copyTpl(
         this.templatePath('app'),
         this.destinationPath('app'), {
@@ -72,14 +73,14 @@ module.exports = yeoman.Base.extend({
         });
   },
 
-  initializing: function () {
+  initializing() {
     this.composeWith('weplajs:api', {
       resourceName: 'user',
       version: 'v1'
     });
   },
 
-  install: function () {
+  install() {
     this.npmInstall();
   }
 });

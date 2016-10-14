@@ -33,12 +33,18 @@ describe('util.js', () => {
       };
 
       util.rewrite(args);
-      const r = fs.readFileSync(filePath, 'utf8');
-      console.log(r);
 
+      const r = fs.readFileSync(filePath, 'utf8');
       const lines = r.split('\n');
       const needleIdx = lines.findIndex((l, i) => l.indexOf(args.needle) > -1);
+
       assert.equal(lines[needleIdx + 1].indexOf(args.splicable[0]) > -1, true);
     });
   });
+
+  describe('capitalize', () => {
+    it('should capitalzie firest charactor of input', () => {
+      assert.equal(util.capitalize('test'), 'Test');
+    })
+  })
 });
