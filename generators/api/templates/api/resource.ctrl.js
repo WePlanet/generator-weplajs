@@ -49,7 +49,7 @@ module.exports = {
     if (!name.length) throw new errors.BadRequest(errors.Codes.EmptyName);
 
     return Promise.resolve()
-        .then(() => <%= Resource %>.update(id, name))
+        .then(() => <%= Resource %>.update({name: name}, id))
         .catch(err => {
           if (err === errors.Codes.NotFound) {
             throw new errors.NotFound(errors.Codes.NotFound);

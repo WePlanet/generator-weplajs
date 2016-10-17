@@ -3,14 +3,14 @@
 const models = require('../models');
 const errors = require('../components/errors');
 
-exports.index = (limit, offset) => {
+const index = (limit, offset) => {
   return models['<%= Resource %>'].findAll({
     limit: limit,
     offset: offset
   });
 };
 
-exports.show = id => {
+const show = id => {
   return models['<%= Resource %>'].findOne({
     where: {
       id: id
@@ -18,7 +18,7 @@ exports.show = id => {
   })
 };
 
-exports.create = name => {
+const create = name => {
   return models['<%= Resource %>'].create({
     name: name
   }).catch(err => {
@@ -29,22 +29,30 @@ exports.create = name => {
   });
 };
 
-exports.update = (id, name) => {
-  return models['<%= Resource %>'].findOne({
-    where: {
-      id: id
-    }
-  }).then(<%= resource %> => {
-    if (!<%= resource %>) {
-      return Promise.reject(errors.Codes.NotFound);
-    }
+const update = (body, id) => {
+  return Promise.resolve()
+      .then(() => show(id))
+      .then(<%= resource %> => {
+        if (!<%= resource %>) throw new errors.NotFound();
 
-    <%= resource %>.name = name;
-    return <%= resource %>.save();
-  })
+        for (let key in body) <%= resource %>[key] = body[key]
+        return <%= resource %>.save();
+      })
+      .then(() => show(id))
+      .catch(err => {
+        if (err.name === 'SequelizeValidationError') {
+          return Promise.reject(new errors.BadRequest(err.message));
+        }
+
+        if (err.name === 'SequelizeUniqueConstraintError') {
+          return Promise.reject(new errors.Conflict(err.message));
+        }
+
+        return Promise.reject(err);
+      });
 };
 
-exports.destroy = id => {
+const destroy = id => {
   return models['<%= Resource %>'].destroy({
     where: {
       id: id
@@ -52,4 +60,12 @@ exports.destroy = id => {
   }).then(count => {
     return count ? Promise.resolve() : Promise.reject(errors.Codes.NotFound);
   });
+};
+
+module.exports = {
+  index: index,
+  show: show,
+  create: create,
+  update: update,
+  destroy: destroy,
 };

@@ -7,6 +7,11 @@ module.exports = {
 
   ],
 
+  accessToken: {
+    secret: 's3cr2t-t2st',
+    expireSeconds: 60 * 60 * 24 * 30 * 12 // 12 months
+  },
+
   database: {
     username: '<%= dbUser %>',
     password: '<%= dbPass %>',

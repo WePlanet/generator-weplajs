@@ -8,6 +8,7 @@ class ErrorCode {
 }
 
 const ErrorCodes = {
+  AuthByOtherDevice:  new ErrorCode('AuthByOtherDevice', 'authenticated by other device'),
   Conflict:           new ErrorCode('conflict', 'conflict'),
   ConflictUser:       new ErrorCode('conflictUser', 'conflict user name'),
   EmailValidation:    new ErrorCode('emailValidation', 'email  alidation error'),

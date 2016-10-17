@@ -13,6 +13,11 @@ module.exports = {
     syncForce: true
   },
 
+  accessToken: {
+    secret: 's3cr2t-producsion',
+    expireSeconds: 60 * 60 * 24 * 30 * 12 // 12 months
+  },
+
   checkList: [
     'API_KEY',
     'DB_NAME',

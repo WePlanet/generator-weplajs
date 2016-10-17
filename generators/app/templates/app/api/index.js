@@ -22,7 +22,11 @@ const api = {
    */
   http: apiMethod => {
     return (req, res, next) => {
-      let options = Object.assign({}, req.params, req.query, req.body);
+      let options = Object.assign({}, req.params, req.query, req.body, {
+        context: {
+          user: req.user || null
+        }
+      });
 
       apiMethod(options)
           .then(result => {
@@ -32,6 +36,20 @@ const api = {
             res.status(statusCode).json(body);
           })
           .catch(err => next(err));
+    };
+  },
+
+  verify: (...args) => {
+    return (req, res, next) => {
+      let options = Object.assign({}, req.params, req.query, req.body);
+      let verified = args.every(arg => options.hasOwnProperty(arg));
+
+      if (!verified) {
+        let errorMessage = `${args.join(', ')} is(are) required`;
+        return next(new errors.BadRequest(errorMessage));
+      }
+
+      next();
     };
   },
 
