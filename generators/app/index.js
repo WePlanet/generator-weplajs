@@ -3,6 +3,9 @@
 const yeoman = require('yeoman-generator');
 const chalk = require('chalk');
 const yosay = require('yosay');
+const fs = require('fs');
+const path = require('path');
+const util = require('../util');
 
 module.exports = yeoman.Base.extend({
   prompting() {
@@ -71,12 +74,61 @@ module.exports = yeoman.Base.extend({
         this.destinationPath('README.md'), {
           name: this.props.name
         });
+
+    // Add User APIs
+    this.fs.copyTpl(
+        this.templatePath('../../api/templates/api/index.js'),
+        this.destinationPath('app/api/v1/user/index.js'), {
+          resource: 'user'
+        });
+
+    this.fs.copyTpl(
+        this.templatePath('../../api/templates/api/resource.ctrl.js'),
+        this.destinationPath(`app/api/v1/user/user.ctrl.js`), {
+          resource: 'user',
+          Resource: 'User'
+        });
+
+    this.fs.copyTpl(
+        this.templatePath('../../api/templates/api/resource.spec.js'),
+        this.destinationPath(`app/api/v1/user/user.spec.js`), {
+          resource: 'user',
+          Resource: 'User'
+        });
+
+    this.fs.copyTpl(
+        this.templatePath('../../api/templates/lib.js'),
+        this.destinationPath('app/lib/User.js'), {
+          resource: 'user',
+          Resource: 'User'
+        });
   },
 
-  initializing() {
-    this.composeWith('weplajs:api', {
-      resourceName: 'user',
-      version: 'v1'
+  end() {
+    util.rewrite({
+      file: 'app/routes.js',
+      needle: '// Insert routes below',
+      splicable: [
+        `app.use('/v1/users', require('./api/v1/user'));`
+      ]
+    });
+
+    util.rewrite({
+      file: 'app/config/swagger/v1.doc.js',
+      needle: '// Tags will be here',
+      splicable: [
+        `User: 'User',`
+      ]
+    });
+
+    util.rewrite({
+      file: 'app/config/swagger/v1.doc.js',
+      needle: '// Path will be here',
+      splicable: [
+        fs.readFileSync(path.join(__dirname, '../api/templates/swagger.js'), 'utf8')
+            .replace(/\<\=\% resource \=\>/g, 'user')
+            .replace(/\<\=\% Resource \=\>/g, 'User')
+      ]
     });
   },
 
