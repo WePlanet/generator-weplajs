@@ -31,4 +31,21 @@ exports.rewrite = args => {
   fs.writeFileSync(args.file, body);
 };
 
+exports.removeLines = args => {
+  const text = fs.readFileSync(args.file, 'utf8')
+      .split('\n')
+      .filter(line => !line.includes(args.removeStr))
+      .join('\n');
+  fs.writeFileSync(args.file, text);
+};
+
+exports.replace = args => {
+  const text = fs.readFileSync(args.file, 'utf8')
+      .split('\n')
+      .map(line => line.replace(args.subStr, args.newSubStr))
+      .join('\n');
+  fs.writeFileSync(args.file, text);
+};
+
 exports.capitalize = str => str.charAt(0).toUpperCase() + str.slice(1);
+

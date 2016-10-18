@@ -5,7 +5,8 @@
       operationId: 'get<=% Resource =>',
       parameters: [
         {$ref: '#/parameters/Offset'},
-        {$ref: '#/parameters/Limit'}
+        {$ref: '#/parameters/Limit'},
+        {$ref: '#/parameters/AccessToken'},
       ],
       responses: {
         200: {description: 'Success'},
@@ -16,7 +17,8 @@
       summary: 'Create <=% resource =>',
       operationId: 'create<=% Resource =>',
       parameters: [
-        {$ref: '#/parameters/Name'}
+        {$ref: '#/parameters/Name'},
+        {$ref: '#/parameters/AccessToken'},
       ],
       responses: {
         201: {description: 'Created'},
@@ -32,6 +34,7 @@
       operationId: 'get<=% Resource =>ById',
       parameters: [
         {$ref: '#/parameters/Id'},
+        {$ref: '#/parameters/AccessToken'},
       ],
       responses: {
         200: {description: 'Success'},
@@ -45,6 +48,7 @@
       operationId: 'remove<=% Resource =>ById',
       parameters: [
         {$ref: '#/parameters/Id'},
+      {$ref: '#/parameters/AccessToken'},
       ],
       responses: {
         204: {description: 'No Content'},
@@ -58,7 +62,8 @@
       operationId: 'update<=% Resource =>ById',
       parameters: [
         {$ref: '#/parameters/Id'},
-        {$ref: '#/parameters/Name'}
+        {$ref: '#/parameters/Name'},
+        {$ref: '#/parameters/AccessToken'},
       ],
       responses: {
         200: {description: 'Success'},

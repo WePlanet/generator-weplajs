@@ -8,6 +8,13 @@ const fs = require('fs');
 const path = require('path');
 
 module.exports = yeoman.Base.extend({
+  config() {
+    this.config.set('api.auth',           `api.isAuthenticated(),`);
+    this.config.set('swagger.authParam',  `{$ref: '#/parameters/AccessToken'},`);
+    this.config.set('swagger.pathNeedle', `// Path will be here`);
+    this.config.set('swagger.tagNeedle',  `// Tags will be here`);
+  },
+
   prompting() {
     // Have Yeoman greet the user.
     this.log(yosay('Make ' + chalk.red('your first api ')));
@@ -22,6 +29,11 @@ module.exports = yeoman.Base.extend({
       name: 'version',
       message: 'What is api version of it?',
       default: 'v1'
+    }, {
+      type: 'confirm',
+      name: 'authenticated',
+      message: 'Is api need authentication?',
+      default: true
     }];
 
     return this.prompt(prompts).then(props => {
@@ -86,7 +98,7 @@ module.exports = yeoman.Base.extend({
 
     util.rewrite({
       file: `app/config/swagger/${v}.doc.js`,
-      needle: '// Tags will be here',
+      needle: this.config.get('swagger.tagNeedle'),
       splicable: [
         `${R}: '${R}',`
       ]
@@ -94,12 +106,36 @@ module.exports = yeoman.Base.extend({
 
     util.rewrite({
       file: `app/config/swagger/${v}.doc.js`,
-      needle: '// Path will be here',
+      needle: this.config.get('swagger.pathNeedle'),
       splicable: [
         fs.readFileSync(path.join(__dirname, './templates/swagger.js'), 'utf8')
             .replace(/\<\=\% resource \=\>/g, r)
             .replace(/\<\=\% Resource \=\>/g, R)
       ]
     });
+
+    if (!this.props.authenticated) {
+      util.removeLines({
+        file: `app/api/${v}/${r}/index.js`,
+        removeStr: this.config.get('api.auth')
+      });
+
+      util.replace({
+        file: `app/api/${v}/${r}/${r}.spec.js`,
+        subStr: `helper.bindAccessToken('/${v}/${r}s/1')`,
+        newSubStr: `'/${v}/${r}s/1'`
+      });
+
+      util.replace({
+        file: `app/api/${v}/${r}/${r}.spec.js`,
+        subStr: `helper.bindAccessToken('/${v}/${r}s')`,
+        newSubStr: `'/${v}/${r}s'`
+      });
+
+      util.removeLines({
+        file: `app/config/swagger/${v}.doc.js`,
+        removeStr: this.config.get('swagger.authParam')
+      });
+    }
   }
 });

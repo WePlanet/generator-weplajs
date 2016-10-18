@@ -8,20 +8,9 @@ const assert = require('assert');
 describe('util.js', () => {
   describe('rewrite()', () => {
     const filePath = path.join(__dirname, './rewrite-test-sample.js');
-
-    before('Create sample file', () => {
-      const text = `
-        const foo = _=> {
-          // Insert below
-        
-        };`;
-      fs.writeFileSync(filePath, text);
-    });
-
-    after('Delete sample file', () => {
-      fs.unlinkSync(filePath);
-    });
-
+    const text = `const foo = _=> {\n// Insert below\n  \n};`;
+    before('Create sample file', () => fs.writeFileSync(filePath, text));
+    after('Delete sample file', () => fs.unlinkSync(filePath));
 
     it('should insert splicable in below haystack', () => {
       const args = {
@@ -42,9 +31,53 @@ describe('util.js', () => {
     });
   });
 
-  describe('capitalize', () => {
+  describe('removeLines()', () => {
+    const filePath = path.join(__dirname, './removeLines-test-sample.js');
+    const text = `
+      const foo = _=> {
+        // Remove it
+        Remain it
+      };`;
+    before('Create sample file', () => fs.writeFileSync(filePath, text));
+    after('Delete sample file', () => fs.unlinkSync(filePath));
+
+    it('should remove matched lines from text', () => {
+      let r = fs.readFileSync(filePath, 'utf8');
+      util.removeLines({
+        file: filePath,
+        removeStr: 'Remove it'
+      });
+      r = fs.readFileSync(filePath, 'utf8');
+      assert.equal(true, r.indexOf('Remove it') === -1)
+    });
+  });
+
+  describe('replace()', () => {
+    const filePath = path.join(__dirname, './replace-test-sample.js');
+    const text = `
+      const foo = _=> {
+        function () {
+        
+        }
+      };`;
+    before('Create sample file', () => fs.writeFileSync(filePath, text));
+    after('Delete sample file', () => fs.unlinkSync(filePath));
+
+    it('should replace sub string', () => {
+      let r = fs.readFileSync(filePath, 'utf8');
+      util.replace({
+        file: filePath,
+        subStr: 'function ()',
+        newSubStr: '() =>'
+      });
+      r = fs.readFileSync(filePath, 'utf8');
+      assert.equal(true, r.indexOf('function ()') === -1)
+    });
+  });
+
+  describe('capitalize()', () => {
     it('should capitalzie firest charactor of input', () => {
       assert.equal(util.capitalize('test'), 'Test');
-    })
-  })
+    });
+  });
 });
