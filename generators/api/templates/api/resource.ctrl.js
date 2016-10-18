@@ -7,19 +7,33 @@ class <%= Resource %>Controller extends Controller {
     super('<%= resource %>', 10);
   }
 
-  // Override method if you need...
-  //
-  // index() {
-  //   options => Promise.resolve('foo');
-  // }
+  index() {
+    return super.index()
+
+    // Override method if you need...
+    // options => Promise.resolve('foo');
+  }
+
+  show() {
+    return super.show();
+  }
+
+  create() {
+    return super.create();
+  }
+
+  update() {
+    return super.update();
+  }
+
+  destroy() {
+    return super.destroy();
+  }
 
   // Create new method ...
-  //
-  //
   // newMethod() {
   //   options => Promise.resolve('bar');
   // }
-
 }
 
 module.exports = new <%= Resource %>Controller;

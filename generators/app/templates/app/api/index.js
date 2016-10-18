@@ -2,7 +2,7 @@
 
 const config = require('../config/environment');
 const errors = require('../components/errors');
-
+const auth = require('../components/auth.service');
 
 const api = {
 
@@ -52,6 +52,8 @@ const api = {
       next();
     };
   },
+
+  isAuthenticated: auth.isAuthenticated,
 
   error404: (req, res, next) => {
     next(new errors.NotFound());

@@ -6,19 +6,17 @@ const app = require('../../../');
 const models = require('../../../models');
 const helper = require('../../../components/test-helper');
 
-describe('<%= Resource %>', () => {
-  before('Sync database', done => helper.syncDb(done));
+describe('/<%= version %>/<%= resource %>s', () => {
+  before('Sync database', () => helper.syncDb());
 
-  describe('GET /<%= resource %>s', () => {
+  describe('GET /<%= version %>/<%= resource %>s', () => {
     let <%= resource %>s = [{name: 'name1'}, {name: 'name2'}, {name: 'name3'}];
-
-    before('Insert seed data', done => helper.insertSeed(models['<%= Resource %>'], <%= resource %>s, done));
-
-    after('Delete seed data', done => helper.deleteSeed(models['<%= Resource %>'], <%= resource %>s, done));
+    before('Insert seed data', () => helper.insertSeed(models['<%= Resource %>'], <%= resource %>s));
+    after('Delete seed data', () => helper.deleteSeed(models['<%= Resource %>'], <%= resource %>s));
 
     it('should return 200 status code and array', done => {
       request(app)
-          .get('/v1/<%= resource %>s')
+          .get(helper.bindAccessToken('/<%= version %>/<%= resource %>s'))
           .expect(200)
           .end((err, res) => {
             if (err) throw err;
@@ -28,16 +26,14 @@ describe('<%= Resource %>', () => {
     });
   });
 
-  describe('GET /<%= resource %>s/:id', () => {
+  describe('GET /<%= version %>/<%= resource %>s/:id', () => {
     let <%= resource %>s = [{name: 'name1'}];
-
-    before('Insert seed data', done => helper.insertSeed(models['<%= Resource %>'], <%= resource %>s, done));
-
-    after('Delete seed data', done => helper.deleteSeed(models['<%= Resource %>'], <%= resource %>s, done));
+    before('Insert seed data', () => helper.insertSeed(models['<%= Resource %>'], <%= resource %>s));
+    after('Delete seed data', () => helper.deleteSeed(models['<%= Resource %>'], <%= resource %>s));
 
     it('should return 200 status code and an object', done => {
       request(app)
-          .get('/v1/<%= resource %>s/1')
+          .get(helper.bindAccessToken('/<%= version %>/<%= resource %>s/1'))
           .expect(200)
           .end((err, res) => {
             if (err) throw err;
@@ -48,7 +44,7 @@ describe('<%= Resource %>', () => {
 
     it('should return 400 status code on invalid id', done => {
       request(app)
-          .get('/v1/<%= resource %>s/abc')
+          .get(helper.bindAccessToken('/<%= version %>/<%= resource %>s/abc'))
           .expect(400)
           .end((err, res) => {
             if (err) throw err;
@@ -60,7 +56,7 @@ describe('<%= Resource %>', () => {
 
     it('should return 404 status code on no id', done => {
       request(app)
-          .get('/v1/<%= resource %>s/999')
+          .get(helper.bindAccessToken('/<%= version %>/<%= resource %>s/999'))
           .expect(404)
           .end((err, res) => {
             if (err) throw err;
@@ -71,14 +67,13 @@ describe('<%= Resource %>', () => {
     });
   });
 
-  describe('POST /<%= resource %>s', () => {
+  describe('POST /<%= version %>/%= resource %>s', () => {
     let <%= resource %>s = [{name: 'name1'}];
-
-    after('Delete seed data', done => helper.deleteSeed(models['<%= Resource %>'], <%= resource %>s, done));
+    after('Delete seed data', () => helper.deleteSeed(models['<%= Resource %>'], <%= resource %>s));
 
     it('should return 201 status code and new id', done => {
       request(app)
-          .post('/v1/<%= resource %>s')
+          .post(helper.bindAccessToken('/<%= version %>/<%= resource %>s'))
           .send(<%= resource %>s[0])
           .expect(201)
           .end((err, res) => {
@@ -90,7 +85,7 @@ describe('<%= Resource %>', () => {
 
     it('should return 400 status code on empty name', done => {
       request(app)
-          .post('/v1/<%= resource %>s')
+          .post(helper.bindAccessToken('/<%= version %>/<%= resource %>s'))
           .send({name: ' '})
           .expect(400)
           .end((err, res) => {
@@ -103,7 +98,7 @@ describe('<%= Resource %>', () => {
 
     it('should return 409 status code on duplicated name', done => {
       request(app)
-          .post('/v1/<%= resource %>s')
+          .post(helper.bindAccessToken('/<%= version %>/<%= resource %>s'))
           .send(<%= resource %>s[0])
           .expect(409)
           .end((err, res) => {
@@ -115,16 +110,14 @@ describe('<%= Resource %>', () => {
     });
   });
 
-  describe('PUT /<%= resource %>s/:id', () => {
+  describe('PUT /<%= version %>/<%= resource %>s/:id', () => {
     let <%= resource %>s = [{name: 'name1'}];
-
-    before('Insert seed data', done => helper.insertSeed(models['<%= Resource %>'], <%= resource %>s, done));
-
-    after('Delete seed data', done => helper.deleteSeed(models['<%= Resource %>'], <%= resource %>s, done));
+    before('Insert seed data', () => helper.insertSeed(models['<%= Resource %>'], <%= resource %>s));
+    after('Delete seed data', () => helper.deleteSeed(models['<%= Resource %>'], <%= resource %>s));
 
     it('should return 200 status code and an updated object', done => {
       request(app)
-          .put('/v1/<%= resource %>s/1')
+          .put(helper.bindAccessToken('/<%= version %>/<%= resource %>s/1'))
           .send({name: 'name2'})
           .expect(200)
           .end((err, res) => {
@@ -136,7 +129,7 @@ describe('<%= Resource %>', () => {
 
     it('should return 400 status code on invalid id', done => {
       request(app)
-          .put('/v1/<%= resource %>s/abc')
+          .put(helper.bindAccessToken('/<%= version %>/<%= resource %>s/abc'))
           .expect(400)
           .end((err, res) => {
             if (err) throw err;
@@ -148,7 +141,7 @@ describe('<%= Resource %>', () => {
 
     it('should return 404 status code on no id', done => {
       request(app)
-          .put('/v1/<%= resource %>s/999')
+          .put(helper.bindAccessToken('/<%= version %>/<%= resource %>s/999'))
           .expect(404)
           .end((err, res) => {
             if (err) throw err;
@@ -159,23 +152,14 @@ describe('<%= Resource %>', () => {
     });
   });
 
-  describe('DELETE /<%= resource %>s/:id', () => {
+  describe('DELETE /<%= version %>/<%= resource %>s/:id', () => {
     let <%= resource %>s = [{name: 'name1'}];
-
-    before('Insert seed data', done => helper.insertSeed(models['<%= Resource %>'], <%= resource %>s, done));
-
-    after('Delete seed data', done => helper.deleteSeed(models['<%= Resource %>'], <%= resource %>s, done));
-
-    it('should return 204 status code', done => {
-      request(app)
-          .delete('/v1/<%= resource %>s/1')
-          .expect(204)
-          .end(done);
-    });
+    before('Insert seed data', () => helper.insertSeed(models['<%= Resource %>'], <%= resource %>s));
+    after('Delete seed data', () => helper.deleteSeed(models['<%= Resource %>'], <%= resource %>s));
 
     it('should return 400 status code on invalid id', done => {
       request(app)
-          .delete('/v1/<%= resource %>s/abc')
+          .delete(helper.bindAccessToken('/<%= version %>/<%= resource %>s/abc'))
           .expect(400)
           .end((err, res) => {
             if (err) throw err;
@@ -187,7 +171,7 @@ describe('<%= Resource %>', () => {
 
     it('should return 404 status code on no id', done => {
       request(app)
-          .delete('/v1/<%= resource %>s/999')
+          .delete(helper.bindAccessToken('/<%= version %>/<%= resource %>s/999'))
           .expect(404)
           .end((err, res) => {
             if (err) throw err;
@@ -195,6 +179,13 @@ describe('<%= Resource %>', () => {
             res.body.error.code.should.be.equal('notFound');
             done();
           });
+    });
+
+    it('should return 204 status code', done => {
+      request(app)
+          .delete(helper.bindAccessToken('/<%= version %>/<%= resource %>s/1'))
+          .expect(204)
+          .end(done);
     });
   });
 });

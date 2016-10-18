@@ -75,7 +75,7 @@ module.exports = yeoman.Base.extend({
           name: this.props.name
         });
 
-    // Add User APIs
+    // Add User APIs: /v1/users/:id
     this.fs.copyTpl(
         this.templatePath('../../api/templates/api/index.js'),
         this.destinationPath('app/api/v1/user/index.js'), {
@@ -93,7 +93,8 @@ module.exports = yeoman.Base.extend({
         this.templatePath('../../api/templates/api/resource.spec.js'),
         this.destinationPath(`app/api/v1/user/user.spec.js`), {
           resource: 'user',
-          Resource: 'User'
+          Resource: 'User',
+          version: 'v1'
         });
 
     this.fs.copyTpl(

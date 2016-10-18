@@ -52,7 +52,8 @@ module.exports = yeoman.Base.extend({
         this.templatePath('api/resource.spec.js'),
         this.destinationPath(`app/api/${v}/${r}/${r}.spec.js`), {
           resource: r,
-          Resource: R
+          Resource: R,
+          version: v
         });
 
     this.fs.copyTpl(
@@ -71,6 +72,7 @@ module.exports = yeoman.Base.extend({
   },
 
   end() {
+    const v = this.props.version;
     const r = this.props.resourceName;
     const R = util.capitalize(r);
 
@@ -78,12 +80,12 @@ module.exports = yeoman.Base.extend({
       file: 'app/routes.js',
       needle: '// Insert routes below',
       splicable: [
-        `app.use('/v1/${r}s', require('./api/v1/${r}'));`
+        `app.use('/${v}/${r}s', require('./api/${v}/${r}'));`
       ]
     });
 
     util.rewrite({
-      file: 'app/config/swagger/v1.doc.js',
+      file: `app/config/swagger/${v}.doc.js`,
       needle: '// Tags will be here',
       splicable: [
         `${R}: '${R}',`
@@ -91,7 +93,7 @@ module.exports = yeoman.Base.extend({
     });
 
     util.rewrite({
-      file: 'app/config/swagger/v1.doc.js',
+      file: `app/config/swagger/${v}.doc.js`,
       needle: '// Path will be here',
       splicable: [
         fs.readFileSync(path.join(__dirname, './templates/swagger.js'), 'utf8')
