@@ -109,7 +109,7 @@ describe('<%= Resource %>', () => {
           .end((err, res) => {
             if (err) throw err;
             res.body.should.have.property('error');
-            res.body.error.should.have.property('code', 'conflictUser');
+            res.body.error.should.have.property('code', 'conflict');
             done();
           });
     });

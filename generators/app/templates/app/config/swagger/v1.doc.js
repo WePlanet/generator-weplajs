@@ -3,10 +3,29 @@
 const pkg = require('../../../package.json');
 const tags = {
   // Tags will be here
+  Auth: 'Authentication'
 
 };
 
 const parameters = {
+  AccessToken: {
+    name: 'accessToken',
+    required: true,
+    in: 'query',
+    type: 'string'
+  },
+  Credentials: {
+    name: 'credentials',
+    required: true,
+    in: 'body',
+    schema: {
+      type: 'object',
+      properties: {
+        email: { type: 'string', default: '6pack@wepla.net' },
+        password: { type: 'string', default: '123123' }
+      }
+    }
+  },
   Limit: {
     name: 'limit',
     type: 'number',
@@ -49,6 +68,30 @@ const definitions = {
 
 const paths = {
   // Path will be here
+  '/auth': {
+    post: {
+      tags: [tags.Auth],
+      summary: 'login',
+      operationId: 'login',
+      parameters: [
+        {$ref: '#/parameters/Credentials'}
+      ],
+      responses: {
+        201: {description: 'Created'},
+      }
+    },
+    delete: {
+      tags: [tags.Auth],
+      summary: 'logout',
+      operationId: 'logout',
+      parameters: [
+        {$ref: '#/parameters/AccessToken'}
+      ],
+      responses: {
+        200: {description: 'Success'},
+      }
+    }
+  },
 
 };
 
