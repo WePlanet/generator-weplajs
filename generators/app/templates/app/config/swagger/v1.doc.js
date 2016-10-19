@@ -109,7 +109,7 @@ module.exports = {
     },
     version: pkg.version || '0.1.0'
   },
-  basePath: '/v1',
+  basePath: '/<%= version %>',
   schemes: [
     'http'
   ],

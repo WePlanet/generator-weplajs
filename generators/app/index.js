@@ -56,7 +56,8 @@ module.exports = yeoman.Base.extend({
           dbName: this.props.dbName,
           dbUser: this.props.dbUser,
           dbPass: this.props.dbPass,
-          dbHost: this.props.dbHost
+          dbHost: this.props.dbHost,
+          version: 'v1'
         });
 
     this.fs.copy(

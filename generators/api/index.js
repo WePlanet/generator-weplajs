@@ -9,10 +9,11 @@ const path = require('path');
 
 module.exports = yeoman.Base.extend({
   config() {
-    this.config.set('api.auth',           `api.isAuthenticated(),`);
-    this.config.set('swagger.authParam',  `{$ref: '#/parameters/AccessToken'},`);
-    this.config.set('swagger.pathNeedle', `// Path will be here`);
-    this.config.set('swagger.tagNeedle',  `// Tags will be here`);
+    this.config.set('api.auth',             `api.isAuthenticated(),`);
+    this.config.set('swagger.authParam',    `{$ref: '#/parameters/AccessToken'},`);
+    this.config.set('swagger.pathNeedle',   `// Path will be here`);
+    this.config.set('swagger.tagNeedle',    `// Tags will be here`);
+    this.config.set('swagger.docPahNeedle', `// Swagger document path will be here`);
   },
 
   prompting() {
@@ -81,6 +82,18 @@ module.exports = yeoman.Base.extend({
           resource: r,
           Resource: R
         });
+
+    try {
+      fs.accessSync(`./app/config/swagger/${v}.doc.js`);
+    } catch (e) {
+      this.fs.copyTpl(
+          this.templatePath('../../app/templates/app/config/swagger/v1.doc.js'),
+          this.destinationPath(`app/config/swagger/${v}.doc.js`), {
+            version: v
+          }
+      );
+    }
+
   },
 
   end() {
@@ -93,6 +106,14 @@ module.exports = yeoman.Base.extend({
       needle: '// Insert routes below',
       splicable: [
         `app.use('/${v}/${r}s', require('./api/${v}/${r}'));`
+      ]
+    });
+
+    util.rewrite({
+      file: `app/config/swagger/index.js`,
+      needle: this.config.get('swagger.docPahNeedle'),
+      splicable: [
+        `setupSwaggerDocument(app, '${v}');`
       ]
     });
 

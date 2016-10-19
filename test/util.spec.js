@@ -8,9 +8,14 @@ const assert = require('assert');
 describe('util.js', () => {
   describe('rewrite()', () => {
     const filePath = path.join(__dirname, './rewrite-test-sample.js');
-    const text = `const foo = _=> {\n// Insert below\n  \n};`;
-    before('Create sample file', () => fs.writeFileSync(filePath, text));
-    after('Delete sample file', () => fs.unlinkSync(filePath));
+    const text = `
+      const foo = _=> {
+        // Insert below
+        
+        already here! 
+      };`;
+    beforeEach('Create sample file', () => fs.writeFileSync(filePath, text));
+    afterEach('Delete sample file', () => fs.unlinkSync(filePath));
 
     it('should insert splicable in below haystack', () => {
       const args = {
@@ -22,13 +27,22 @@ describe('util.js', () => {
       };
 
       util.rewrite(args);
-
-      const r = fs.readFileSync(filePath, 'utf8');
-      const lines = r.split('\n');
+      const lines = fs.readFileSync(filePath, 'utf8')
+                      .split('\n');
       const needleIdx = lines.findIndex((l, i) => l.indexOf(args.needle) > -1);
-
       assert.equal(lines[needleIdx + 1].indexOf(args.splicable[0]) > -1, true);
     });
+
+    it('should origin text if already has splicable', () => {
+      util.rewrite({
+        file: filePath,
+            needle: '// Insert below',
+            splicable: [
+          'already here!'
+        ]
+      });
+      assert.equal(text, fs.readFileSync(filePath, 'utf8'));
+    })
   });
 
   describe('removeLines()', () => {

@@ -2,7 +2,16 @@
 
 const fs = require('fs');
 
+const escapeRegExp = str => {
+  return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&');
+};
+
 const rewrite = args => {
+  // check if splicable is already in the body text
+  var re = new RegExp(args.splicable.map(line => '\s*' + escapeRegExp(line))
+                                    .join('\n'));
+  if (re.test(args.haystack)) return args.haystack;
+
   let lines = args.haystack.split('\n');
 
   let otherwiseLineIndex = -1;
@@ -17,18 +26,16 @@ const rewrite = args => {
   let spaceStr = '';
   while ((spaces -= 1) >= 0) spaceStr += ' ';
 
-  lines.splice(otherwiseLineIndex + 1, 0, args.splicable.map(line => {
-    return spaceStr + line;
-  }).join('\n'));
+  lines.splice(otherwiseLineIndex + 1,
+               0,
+               args.splicable.map(line => spaceStr + line).join('\n'));
 
   return lines.join('\n');
 };
 
 exports.rewrite = args => {
   args.haystack = fs.readFileSync(args.file, 'utf8');
-  const body = rewrite(args);
-
-  fs.writeFileSync(args.file, body);
+  fs.writeFileSync(args.file, rewrite(args));
 };
 
 exports.removeLines = args => {

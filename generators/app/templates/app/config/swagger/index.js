@@ -4,8 +4,8 @@ const express = require('express');
 const path = require('path');
 const swaggerParser = require('swagger-parser');
 
-function setupSwaggerDocument(app, version) {
-  app.get('/swagger/doc', (req, res) => {
+const setupSwaggerDocument = (app, version) => {
+  app.get(`/swagger/doc/${version}`, (req, res) => {
     let doc = require(`./${version}.doc.js`);
     doc.host = req.headers.host;
 
@@ -18,18 +18,20 @@ function setupSwaggerDocument(app, version) {
       res.json(api);
     });
   });
-}
+};
 
-function setupSwaggerUi(app) {
+const setupSwaggerUi= app => {
   app.use('/swagger', (req, res, next) => {
     if (req.url === '/') {
-      return res.redirect('/swagger?url=doc');
+      return res.redirect('/swagger?url=doc/v1');
     }
     next();
   }, express.static(path.join(__dirname, '../../../node_modules/swagger-ui/dist')));
-}
+};
 
 module.exports = function setup(app) {
+  // Swagger document path will be here
   setupSwaggerDocument(app, 'v1');
+
   setupSwaggerUi(app);
 };
