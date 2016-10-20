@@ -5,7 +5,6 @@ const request = require('supertest');
 const app = require('../../../index');
 const syncDB = require('../../../../bin/sync-database');
 const models = require('../../../models');
-const errors = require('../../../components/errors');
 
 describe('/v1/auth', function () {
   let user = {email: '6pack@wepla.net', password: 123123};

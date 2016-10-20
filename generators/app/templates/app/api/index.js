@@ -10,8 +10,8 @@ const api = {
 
   _formatHttpError: err => {
     return {
-      code: err.error.code || errors.Codes.UndefinedErrorCode,
-      message: err.error.message
+      errorCode: err.errorCode || 'InternalServerError',
+      message: err.message || ''
     }
   },
 
@@ -46,7 +46,7 @@ const api = {
 
       if (!verified) {
         let errorMessage = `${args.join(', ')} is(are) required`;
-        return next(new errors.BadRequest(errorMessage));
+        return next(errors.BadRequest(errorMessage));
       }
 
       next();
@@ -56,13 +56,13 @@ const api = {
   isAuthenticated: auth.isAuthenticated,
 
   error404: (req, res, next) => {
-    next(new errors.NotFound());
+    next(errors.NotFound());
   },
 
   error: (err, req, res, next) => {
     res
         .status(api._statusCode(err))
-        .json({ error: api._formatHttpError(err) });
+        .json(api._formatHttpError(err));
   }
 
 };

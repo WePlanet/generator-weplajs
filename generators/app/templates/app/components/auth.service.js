@@ -38,7 +38,7 @@ const authService = {
         })
         .use((err, req, res, next) => {
           if (err.name === 'UnauthorizedError') {
-            next(new errors.Unauthorized(errors.Codes.InvalidToken));
+            next(errors.Unauthorized(errors.Codes.InvalidToken));
           }
         })
         .use((req, res, next) => {

@@ -10,7 +10,7 @@ module.exports = {
   
   login(req, res, next) {
     const  responseToClient = user => {
-      if (!user) return next(new errors.NotFound(errors.Codes.NoUser));
+      if (!user) return next(errors.NotFound(errors.Codes.NoUser));
       
       user.accessToken = auth.signToken(user.id);
       user.save()
@@ -24,7 +24,7 @@ module.exports = {
     
     passport.authenticate('local', (err, user, info) => {
       err = err || info;
-      if (err) return next(new errors.Unauthorized(err));
+      if (err) return next(errors.Unauthorized(err));
 
       responseToClient(user);
     })(req, res, next);

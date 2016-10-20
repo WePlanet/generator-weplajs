@@ -5,6 +5,7 @@ const request = require('supertest');
 const app = require('../../../');
 const models = require('../../../models');
 const helper = require('../../../components/test-helper');
+const errors = require('../../../components/errors');
 
 describe('/<%= version %>/<%= resource %>s', () => {
   before('Sync database', () => helper.syncDb());
@@ -48,8 +49,7 @@ describe('/<%= version %>/<%= resource %>s', () => {
           .expect(400)
           .end((err, res) => {
             if (err) throw err;
-            res.body.should.have.property('error');
-            res.body.error.code.should.be.equal('invalidId');
+            res.body.errorCode.should.be.equal(errors.Codes.InvalidId);
             done();
           });
     });
@@ -60,8 +60,7 @@ describe('/<%= version %>/<%= resource %>s', () => {
           .expect(404)
           .end((err, res) => {
             if (err) throw err;
-            res.body.should.have.property('error');
-            res.body.error.code.should.be.equal('notFound');
+            res.body.errorCode.should.be.equal(errors.Codes.NotFound);
             done();
           });
     });
@@ -90,8 +89,7 @@ describe('/<%= version %>/<%= resource %>s', () => {
           .expect(400)
           .end((err, res) => {
             if (err) throw err;
-            res.body.should.have.property('error');
-            res.body.error.should.have.property('code', 'emptyName');
+            res.body.should.have.property('errorCode', errors.Codes.EmptyName);
             done();
           });
     });
@@ -103,8 +101,7 @@ describe('/<%= version %>/<%= resource %>s', () => {
           .expect(409)
           .end((err, res) => {
             if (err) throw err;
-            res.body.should.have.property('error');
-            res.body.error.should.have.property('code', 'conflict');
+            res.body.should.have.property('errorCode', errors.Codes.Conflict);
             done();
           });
     });
@@ -133,8 +130,7 @@ describe('/<%= version %>/<%= resource %>s', () => {
           .expect(400)
           .end((err, res) => {
             if (err) throw err;
-            res.body.should.have.property('error');
-            res.body.error.code.should.be.equal('invalidId');
+            res.body.errorCode.should.be.equal(errors.Codes.InvalidId);
             done();
           });
     });
@@ -145,8 +141,7 @@ describe('/<%= version %>/<%= resource %>s', () => {
           .expect(404)
           .end((err, res) => {
             if (err) throw err;
-            res.body.should.have.property('error');
-            res.body.error.code.should.be.equal('notFound');
+            res.body.errorCode.should.be.equal(errors.Codes.NotFound);
             done();
           });
     });
@@ -163,8 +158,7 @@ describe('/<%= version %>/<%= resource %>s', () => {
           .expect(400)
           .end((err, res) => {
             if (err) throw err;
-            res.body.should.have.property('error');
-            res.body.error.code.should.be.equal('invalidId');
+            res.body.errorCode.should.be.equal(errors.Codes.InvalidId);
             done();
           });
     });
@@ -175,8 +169,7 @@ describe('/<%= version %>/<%= resource %>s', () => {
           .expect(404)
           .end((err, res) => {
             if (err) throw err;
-            res.body.should.have.property('error');
-            res.body.error.code.should.be.equal('notFound');
+            res.body.errorCode.should.be.equal(errors.Codes.NotFound);
             done();
           });
     });

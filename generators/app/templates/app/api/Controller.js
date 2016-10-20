@@ -21,12 +21,12 @@ module.exports = class Controller {
   show() {
     return options => {
       const id = this._parseId(options.id);
-      if (!id) throw new errors.BadRequest(errors.Codes.InvalidId);
+      if (!id) throw errors.BadRequest(errors.Codes.InvalidId);
 
       return Promise.resolve()
           .then(() => this.Lib.show(id))
           .then(r => {
-            if (!r) throw new errors.NotFound(errors.Codes.NotFound);
+            if (!r) throw errors.NotFound();
             return r;
           });
     };
@@ -35,14 +35,14 @@ module.exports = class Controller {
   create() {
     return options => {
       let name = (options.name + '').trim();
-      if (!name.length) throw new errors.BadRequest(errors.Codes.EmptyName);
+      if (!name.length) throw errors.BadRequest(errors.Codes.EmptyName);
 
       return Promise.resolve()
           .then(() => this.Lib.create(name))
           .then(user => Object.assign(user, {statusCode: 201}))
           .catch(err => {
             if (err === errors.Codes.Conflict) {
-              throw new errors.Conflict(errors.Codes.Conflict);
+              throw errors.Conflict();
             }
             throw err;
           });
@@ -52,16 +52,16 @@ module.exports = class Controller {
   update() {
     return options => {
       const id = this._parseId(options.id);
-      if (!id) throw new errors.BadRequest(errors.Codes.InvalidId);
+      if (!id) throw errors.BadRequest(errors.Codes.InvalidId);
 
       let name = (options.name + '').trim();
-      if (!name.length) throw new errors.BadRequest(errors.Codes.EmptyName);
+      if (!name.length) throw errors.BadRequest(errors.Codes.EmptyName);
 
       return Promise.resolve()
           .then(() => this.Lib.update({name: name}, id))
           .catch(err => {
             if (err === errors.Codes.NotFound) {
-              throw new errors.NotFound(errors.Codes.NotFound);
+              throw errors.NotFound();
             }
             throw err;
           });
@@ -71,14 +71,14 @@ module.exports = class Controller {
   destroy() {
     return options => {
       const id = this._parseId(options.id);
-      if (!id) throw new errors.BadRequest(errors.Codes.InvalidId);
+      if (!id) throw errors.BadRequest(errors.Codes.InvalidId);
 
       return Promise.resolve()
           .then(() => this.Lib.destroy(id))
           .then(() => ({statusCode: 204}))
           .catch(err => {
             if (err === errors.Codes.NotFound) {
-              throw new errors.NotFound(errors.Codes.NotFound);
+              throw errors.NotFound(errors.Codes.NotFound);
             }
             throw err;
           });

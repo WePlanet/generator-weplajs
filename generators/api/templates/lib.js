@@ -33,7 +33,7 @@ const update = (body, id) => {
   return Promise.resolve()
       .then(() => show(id))
       .then(<%= resource %> => {
-        if (!<%= resource %>) throw new errors.NotFound();
+        if (!<%= resource %>) throw errors.NotFound();
 
         for (let key in body) <%= resource %>[key] = body[key]
         return <%= resource %>.save();
@@ -41,11 +41,11 @@ const update = (body, id) => {
       .then(() => show(id))
       .catch(err => {
         if (err.name === 'SequelizeValidationError') {
-          return Promise.reject(new errors.BadRequest(err.message));
+          return Promise.reject(errors.BadRequest(err.message));
         }
 
         if (err.name === 'SequelizeUniqueConstraintError') {
-          return Promise.reject(new errors.Conflict(err.message));
+          return Promise.reject(errors.Conflict(err.message));
         }
 
         return Promise.reject(err);
