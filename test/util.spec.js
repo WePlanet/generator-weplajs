@@ -94,4 +94,19 @@ describe('util.js', () => {
       assert.equal(util.capitalize('test'), 'Test');
     });
   });
+
+  describe('exist()', () => {
+    const path = `./${Date.now()}.txt`;
+    before('Create sample file', () => fs.writeFileSync(path, 'test'));
+    after('Delete smaple file', () => fs.unlinkSync(path));
+
+
+    it('should return true if file is not exist', () => {
+      assert.equal(util.exist(path), true);
+    });
+
+    it('should return false if file is not exist', () => {
+      assert.equal(util.exist(`${Date.now()}.txt`), false);
+    });
+  })
 });

@@ -56,3 +56,12 @@ exports.replace = args => {
 
 exports.capitalize = str => str.charAt(0).toUpperCase() + str.slice(1);
 
+exports.exist = path => {
+  try {
+    fs.accessSync(path);
+    return true;
+  } catch(e) {
+    return false;
+  }
+};
+

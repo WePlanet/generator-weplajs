@@ -56,24 +56,28 @@ module.exports = yeoman.Base.extend({
           dbName: this.props.dbName,
           dbUser: this.props.dbUser,
           dbPass: this.props.dbPass,
-          dbHost: this.props.dbHost,
-          version: 'v1'
+          dbHost: this.props.dbHost
         });
-
     this.fs.copy(
         this.templatePath('bin'),
         this.destinationPath('bin'));
-
     this.fs.copyTpl(
         this.templatePath('package.json'),
         this.destinationPath('package.json'), {
           name: this.props.name
         });
-
     this.fs.copyTpl(
         this.templatePath('README.md'),
         this.destinationPath('README.md'), {
           name: this.props.name
+        });
+    this.fs.copy(
+        this.templatePath('swagger/index.js'),
+        this.destinationPath('app/config/swagger/index.js'));
+    this.fs.copyTpl(
+        this.templatePath('swagger/version.doc.js'),
+        this.destinationPath('app/config/swagger/v1.doc.js'), {
+          version: 'v1'
         });
 
     // Add User APIs: /v1/users/:id
@@ -82,14 +86,12 @@ module.exports = yeoman.Base.extend({
         this.destinationPath('app/api/v1/user/index.js'), {
           resource: 'user'
         });
-
     this.fs.copyTpl(
         this.templatePath('../../api/templates/api/resource.ctrl.js'),
         this.destinationPath(`app/api/v1/user/user.ctrl.js`), {
           resource: 'user',
           Resource: 'User'
         });
-
     this.fs.copyTpl(
         this.templatePath('../../api/templates/api/resource.spec.js'),
         this.destinationPath(`app/api/v1/user/user.spec.js`), {
@@ -97,7 +99,6 @@ module.exports = yeoman.Base.extend({
           Resource: 'User',
           version: 'v1'
         });
-
     this.fs.copyTpl(
         this.templatePath('../../api/templates/lib.js'),
         this.destinationPath('app/lib/User.js'), {

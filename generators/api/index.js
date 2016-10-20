@@ -47,6 +47,7 @@ module.exports = yeoman.Base.extend({
     const v = this.props.version;
     const r = this.props.resourceName;
     const R = util.capitalize(this.props.resourceName);
+    const swaggerPath = `./app/config/swagger/${v}.doc.js`;
 
     this.fs.copyTpl(
         this.templatePath('api/index.js'),
@@ -83,17 +84,14 @@ module.exports = yeoman.Base.extend({
           Resource: R
         });
 
-    try {
-      fs.accessSync(`./app/config/swagger/${v}.doc.js`);
-    } catch (e) {
+    if (!util.exist(swaggerPath)) {
       this.fs.copyTpl(
-          this.templatePath('../../app/templates/app/config/swagger/v1.doc.js'),
-          this.destinationPath(`app/config/swagger/${v}.doc.js`), {
+          this.templatePath('../../app/templates/swagger/version.doc.js'),
+          this.destinationPath(swaggerPath), {
             version: v
           }
       );
     }
-
   },
 
   end() {
