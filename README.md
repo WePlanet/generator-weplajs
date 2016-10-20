@@ -1,9 +1,10 @@
 # generator-weplajs
 
-> ExpressJS 프레임웍 기반의 REST API 서버 개발을 위한 요맨 제너레이터입니다. 
+> ExpressJS 프레임웍 기반의 REST API 서버 개발을 위한 요맨 제너레이터입니다.
 
+> 버그리포팅과 이슈는 언제나 환영입니다.😍  언제든지 깃헙 [이슈](https://github.com/WePlanet/generator-weplajs/issues/new)에 등록해 주세요.
 
-## 설치 
+## 설치
 
 먼저 [npm](https://www.npmjs.com/)을 이용해 [Yeoman](http://yeoman.io)과 generator-weplajs를 여러분의 컴퓨터에 설치하세요. ([node.js]는 이미 설치되어 있다고 가정합니다.(https://nodejs.org/))
 
@@ -32,13 +33,13 @@ mysql> CREATE DATABASE mydb_production;
 ```
 
 그리고나서 npm으로 새 프로젝트를 실행합니다.
- 
+
 ```bash
 npm start
 [STARTUP_INFO] Sync Database {"force":true}
 [STARTUP_INFO] Server listening on port 3000 development mode
 ```
- 
+
 이제 브라우져에서 [http://127.0.0.1:3000](http://127.0.0.1:3000 ) 주소에 접속할 수 있습니다.
 
 ![](imgs/index-page.png)
@@ -48,12 +49,12 @@ npm start
 ![](imgs/swagger.png)
 
 
-## 테스트 
+## 테스트
 
 Mocha, Supertest로 API의 유닛 테스트를 실행해 보세요.
- 
+
 ```bash
-npm test 
+npm test
 ```
 
 ![](imgs/test-results.png)
@@ -61,7 +62,7 @@ npm test
 
 ## API 추가
 
-API를 추가할 때는 리소스 이름을 사용합니다. 
+API를 추가할 때는 리소스 이름을 사용합니다.
 
 ```
 yo weplajs:api
