@@ -4,6 +4,16 @@
 
 > 버그리포팅과 이슈는 언제나 환영입니다.😍  언제든지 깃헙 [이슈](https://github.com/WePlanet/generator-weplajs/issues/new)에 등록해 주세요.
 
+## 제너레이터
+
+- App
+  - weplajs
+- API
+  - weplajs:api
+- Error code
+  - Weplajs:error
+
+
 ## 설치
 
 먼저 [npm](https://www.npmjs.com/)을 이용해 [Yeoman](http://yeoman.io)과 generator-weplajs를 여러분의 컴퓨터에 설치하세요. ([node.js]는 이미 설치되어 있다고 가정합니다.(https://nodejs.org/))
@@ -59,11 +69,3 @@ npm test
 
 ![](imgs/test-results.png)
 
-
-## API 추가
-
-API를 추가할 때는 리소스 이름을 사용합니다.
-
-```
-yo weplajs:api
-```

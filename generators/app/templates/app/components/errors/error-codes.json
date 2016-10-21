@@ -1,4 +1,5 @@
 [
+  { "// Error code will be here": true },
   {
     "code": "NotFound",
     "message": {

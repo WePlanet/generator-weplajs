@@ -14,10 +14,7 @@ const WeplaError = (statusCode, defaultErrorCode) => {
 let _m = new Map();
 Array.from(require('./error-codes.json'))
     .forEach(item => {
-      if (!item.hasOwnProperty('code')) {
-        throw new Error('Error code json file muse have code key');
-      }
-      _m.set(item.code, item.code)
+      if (item.hasOwnProperty('code')) _m.set(item.code, item.code)
     });
 const code = errorCode => _m.get(errorCode);
 
