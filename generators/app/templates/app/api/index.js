@@ -4,23 +4,20 @@ const config = require('../config/environment');
 const errors = require('../components/errors');
 const auth = require('../components/auth.service');
 
-const api = {
+const statusCode = err => err.statusCode || 500;
 
-  _statusCode: err => err.statusCode || 500,
+const formatHttpError = err => ({
+  errorCode: err.errorCode || 'InternalServerError',
+  message: err.message || ''
+});
 
-  _formatHttpError: err => {
-    return {
-      errorCode: err.errorCode || 'InternalServerError',
-      message: err.message || ''
-    }
-  },
-
+module.exports = {
   /**
    * Format HTTP Response
-   * @param {Function} apiMethod 
+   * @param {Function} apiMethod
    * @returns {Function} express middleware
    */
-  http: apiMethod => {
+  http(apiMethod) {
     return (req, res, next) => {
       let options = Object.assign({}, req.params, req.query, req.body, {
         context: {
@@ -39,10 +36,15 @@ const api = {
     };
   },
 
-  verify: (...args) => {
+  /**
+   * Parameter validator
+   * @param args i.e. 'name', 'age'
+   * @returns {function(*, *, *)}
+   */
+  verify(...args) {
     return (req, res, next) => {
-      let options = Object.assign({}, req.params, req.query, req.body);
-      let verified = args.every(arg => options.hasOwnProperty(arg));
+      const options = Object.assign({}, req.params, req.query, req.body);
+      const verified = args.every(arg => options.hasOwnProperty(arg));
 
       if (!verified) {
         let errorMessage = `${args.join(', ')} is(are) required`;
@@ -55,18 +57,13 @@ const api = {
 
   isAuthenticated: auth.isAuthenticated,
 
-  error404: (req, res, next) => {
+  error404(req, res, next) {
     next(errors.NotFound());
   },
 
-  error: (err, req, res, next) => {
-    res
-        .status(api._statusCode(err))
-        .json(api._formatHttpError(err));
+  error(err, req, res, next) {
+    res.status(statusCode(err)).json(formatHttpError(err));
   }
-
 };
-
-module.exports = api;
 
 

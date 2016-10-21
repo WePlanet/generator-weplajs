@@ -1,10 +1,17 @@
 'use strict';
 
+/**
+ * Error generator
+ * @param statusCode
+ * @param defaultErrorCode
+ * @returns {function(*=, *=): {statusCode: *, errorCode: *, message: string}}
+ * @constructor
+ */
 const WeplaError = (statusCode, defaultErrorCode) => {
   return (errorCode, message) => ({
     statusCode: statusCode,
-    errorCode: errorCode || defaultErrorCode,
-    message: message || ''
+    errorCode: code(errorCode) || defaultErrorCode,
+    message: message || code(errorCode) ? '' : errorCode
   });
 };
 

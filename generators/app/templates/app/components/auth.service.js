@@ -8,13 +8,13 @@ const models = require('../models');
 const errors = require('../components/errors');
 const validateJwt = expressJwt({secret: config.accessToken.secret});
 
-const authService = {
+module.exports = {
   signToken(userId) {
     return jwt.sign({id: userId}, config.accessToken.secret, {
       expiresIn: config.accessToken.expireSeconds
     });
   },
-  
+
   decodeToken() {
     return (req, res, next) => {
       if (req.query && req.query.hasOwnProperty('accessToken')) {
@@ -38,7 +38,7 @@ const authService = {
         })
         .use((err, req, res, next) => {
           if (err.name === 'UnauthorizedError') {
-            next(errors.Unauthorized(errors.Codes.InvalidToken));
+            next(errors.Unauthorized(errors.Codes('InvalidToken')));
           }
         })
         .use((req, res, next) => {
@@ -46,20 +46,17 @@ const authService = {
             where: {id: req.user.id}
           }).then((user) => {
             if (!user) {
-              return next(new errors.Unauthorized(errors.Codes.NotFoundByToken));
+              return next(new errors.Unauthorized(errors.Codes('NotFoundByToken')));
             }
 
             req.user = user.get({plain: true});
             if (req.user.accessToken !== req.query.accessToken) {
-              return next(new errors.Unauthorized(errors.Codes.AuthByOtherDevice));
+              return next(new errors.Unauthorized(errors.Codes('AuthByOtherDevice')));
             }
 
             delete req.user.password;
             next();
           }).catch(err => next(err));
         });
-  },
-
+  }
 };
-
-module.exports = authService;

@@ -13,6 +13,7 @@ router.get('/:id',
     api.http(ctrl.show()));
 
 router.post('/',
+    api.verify('name'),
     api.isAuthenticated(),
     api.http(ctrl.create()));
 
