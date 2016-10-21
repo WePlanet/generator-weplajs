@@ -49,7 +49,7 @@ describe('/<%= version %>/<%= resource %>s', () => {
           .expect(400)
           .end((err, res) => {
             if (err) throw err;
-            res.body.errorCode.should.be.equal(errors.Codes.InvalidId);
+            res.body.errorCode.should.be.equal(errors.Codes('InvalidId'));
             done();
           });
     });
@@ -60,13 +60,13 @@ describe('/<%= version %>/<%= resource %>s', () => {
           .expect(404)
           .end((err, res) => {
             if (err) throw err;
-            res.body.errorCode.should.be.equal(errors.Codes.NotFound);
+            res.body.errorCode.should.be.equal(errors.Codes('NotFound'));
             done();
           });
     });
   });
 
-  describe('POST /<%= version %>/%= resource %>s', () => {
+  describe('POST /<%= version %>/<%= resource %>s', () => {
     let <%= resource %>s = [{name: 'name1'}];
     after('Delete seed data', () => helper.deleteSeed(models['<%= Resource %>'], <%= resource %>s));
 
@@ -89,7 +89,7 @@ describe('/<%= version %>/<%= resource %>s', () => {
           .expect(400)
           .end((err, res) => {
             if (err) throw err;
-            res.body.should.have.property('errorCode', errors.Codes.EmptyName);
+            res.body.should.have.property('errorCode', errors.Codes('EmptyName'));
             done();
           });
     });
@@ -101,7 +101,7 @@ describe('/<%= version %>/<%= resource %>s', () => {
           .expect(409)
           .end((err, res) => {
             if (err) throw err;
-            res.body.should.have.property('errorCode', errors.Codes.Conflict);
+            res.body.should.have.property('errorCode', errors.Codes('Conflict'));
             done();
           });
     });
@@ -130,7 +130,7 @@ describe('/<%= version %>/<%= resource %>s', () => {
           .expect(400)
           .end((err, res) => {
             if (err) throw err;
-            res.body.errorCode.should.be.equal(errors.Codes.InvalidId);
+            res.body.errorCode.should.be.equal(errors.Codes('InvalidId'));
             done();
           });
     });
@@ -141,7 +141,7 @@ describe('/<%= version %>/<%= resource %>s', () => {
           .expect(404)
           .end((err, res) => {
             if (err) throw err;
-            res.body.errorCode.should.be.equal(errors.Codes.NotFound);
+            res.body.errorCode.should.be.equal(errors.Codes('NotFound'));
             done();
           });
     });
@@ -158,7 +158,7 @@ describe('/<%= version %>/<%= resource %>s', () => {
           .expect(400)
           .end((err, res) => {
             if (err) throw err;
-            res.body.errorCode.should.be.equal(errors.Codes.InvalidId);
+            res.body.errorCode.should.be.equal(errors.Codes('InvalidId'));
             done();
           });
     });
@@ -169,7 +169,7 @@ describe('/<%= version %>/<%= resource %>s', () => {
           .expect(404)
           .end((err, res) => {
             if (err) throw err;
-            res.body.errorCode.should.be.equal(errors.Codes.NotFound);
+            res.body.errorCode.should.be.equal(errors.Codes('NotFound'));
             done();
           });
     });

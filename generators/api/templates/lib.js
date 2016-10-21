@@ -23,7 +23,7 @@ const create = name => {
     name: name
   }).catch(err => {
     if (err.name  === 'SequelizeUniqueConstraintError') {
-      return Promise.reject(errors.Codes.Conflict);
+      return Promise.reject(errors.Codes('Conflict'));
     }
     return Promise.reject(err);
   });
@@ -58,7 +58,7 @@ const destroy = id => {
       id: id
     }
   }).then(count => {
-    return count ? Promise.resolve() : Promise.reject(errors.Codes.NotFound);
+    return count ? Promise.resolve() : Promise.reject(errors.Codes('NotFound'));
   });
 };
 

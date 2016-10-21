@@ -1,0 +1,50 @@
+[
+  {
+    "code": "NotFound",
+    "message": {
+      "en": "Not found resource"
+    }
+  },
+  {
+    "code": "BadRequest",
+    "message": {
+      "en": ""
+    }
+  },
+  {
+    "code": "NoUser",
+    "message": {
+      "en": ""
+    }
+  },
+  {
+    "code": "InvalidId",
+    "message": {
+      "en": ""
+    }
+  },
+  {
+    "code": "EmptyName",
+    "message": {
+      "en": ""
+    }
+  },
+  {
+    "code": "Conflict",
+    "message": {
+      "en": ""
+    }
+  },
+  {
+    "code": "Unauthorized",
+    "message": {
+      "en": ""
+    }
+  },
+  {
+    "code": "InvalidToken",
+    "message": {
+      "en": ""
+    }
+  }
+]
