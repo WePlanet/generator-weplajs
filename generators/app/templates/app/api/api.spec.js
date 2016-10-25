@@ -24,8 +24,8 @@ describe('Errors', () => {
     });
 
     it('should return error object', () => {
-      _res.body.should.have.property('errorCode', 'NotFound');
-      _res.body.should.have.property('message');
+      _res.body[0].should.have.property('errorCode', 'NotFound');
+      _res.body[0].should.have.property('message');
     });
   });
 });

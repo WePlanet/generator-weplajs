@@ -49,7 +49,7 @@ describe('/<%= version %>/<%= resource %>s', () => {
           .expect(400)
           .end((err, res) => {
             if (err) throw err;
-            res.body.errorCode.should.be.equal(errors.Codes('InvalidId'));
+            res.body[0].errorCode.should.be.equal('BadRequest');
             done();
           });
     });
@@ -60,7 +60,7 @@ describe('/<%= version %>/<%= resource %>s', () => {
           .expect(404)
           .end((err, res) => {
             if (err) throw err;
-            res.body.errorCode.should.be.equal(errors.Codes('NotFound'));
+            res.body[0].errorCode.should.be.equal('NotFound');
             done();
           });
     });
@@ -89,7 +89,7 @@ describe('/<%= version %>/<%= resource %>s', () => {
           .expect(400)
           .end((err, res) => {
             if (err) throw err;
-            res.body.should.have.property('errorCode', errors.Codes('EmptyName'));
+            res.body[0].should.have.property('errorCode', 'BadRequest');
             done();
           });
     });
@@ -101,7 +101,7 @@ describe('/<%= version %>/<%= resource %>s', () => {
           .expect(409)
           .end((err, res) => {
             if (err) throw err;
-            res.body.should.have.property('errorCode', errors.Codes('Conflict'));
+            res.body[0].should.have.property('errorCode', errors.Codes('Conflict'));
             done();
           });
     });
@@ -130,7 +130,7 @@ describe('/<%= version %>/<%= resource %>s', () => {
           .expect(400)
           .end((err, res) => {
             if (err) throw err;
-            res.body.errorCode.should.be.equal(errors.Codes('InvalidId'));
+            res.body[0].errorCode.should.be.equal('BadRequest');
             done();
           });
     });
@@ -138,10 +138,11 @@ describe('/<%= version %>/<%= resource %>s', () => {
     it('should return 404 status code on no id', done => {
       request(app)
           .put(helper.bindAccessToken('/<%= version %>/<%= resource %>s/999'))
+          .send({name: 'foo'})
           .expect(404)
           .end((err, res) => {
             if (err) throw err;
-            res.body.errorCode.should.be.equal(errors.Codes('NotFound'));
+            res.body[0].errorCode.should.be.equal('NotFound');
             done();
           });
     });
@@ -158,7 +159,7 @@ describe('/<%= version %>/<%= resource %>s', () => {
           .expect(400)
           .end((err, res) => {
             if (err) throw err;
-            res.body.errorCode.should.be.equal(errors.Codes('InvalidId'));
+            res.body[0].errorCode.should.be.equal('BadRequest');
             done();
           });
     });
@@ -169,7 +170,7 @@ describe('/<%= version %>/<%= resource %>s', () => {
           .expect(404)
           .end((err, res) => {
             if (err) throw err;
-            res.body.errorCode.should.be.equal(errors.Codes('NotFound'));
+            res.body[0].errorCode.should.be.equal('NotFound');
             done();
           });
     });

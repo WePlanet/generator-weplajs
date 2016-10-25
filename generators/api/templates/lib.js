@@ -3,19 +3,24 @@
 const models = require('../models');
 const errors = require('../components/errors');
 
+const parseStr = str => {
+  const ret = parseInt(str, 10);
+  return isNaN(ret) ? undefined : ret;
+};
+
 const index = (limit, offset) => {
   return models['<%= Resource %>'].findAll({
-    limit: limit,
-    offset: offset
+    limit: parseStr(limit),
+    offset: parseStr(offset)
   });
 };
 
 const show = id => {
   return models['<%= Resource %>'].findOne({
     where: {
-      id: id
+      id: parseStr(id)
     }
-  })
+  });
 };
 
 const create = name => {
@@ -30,13 +35,14 @@ const create = name => {
 };
 
 const update = (body, id) => {
+  id = parseStr(id)
   return Promise.resolve()
       .then(() => show(id))
-      .then(<%= resource %> => {
-        if (!<%= resource %>) throw errors.NotFound();
+      .then(user => {
+        if (!user) throw errors.NotFound();
 
-        for (let key in body) <%= resource %>[key] = body[key]
-        return <%= resource %>.save();
+        for (let key in body) user[key] = body[key]
+        return user.save();
       })
       .then(() => show(id))
       .catch(err => {
@@ -55,7 +61,7 @@ const update = (body, id) => {
 const destroy = id => {
   return models['<%= Resource %>'].destroy({
     where: {
-      id: id
+      id: parseStr(id)
     }
   }).then(count => {
     return count ? Promise.resolve() : Promise.reject(errors.Codes('NotFound'));

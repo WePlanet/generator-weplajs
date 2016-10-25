@@ -8,7 +8,9 @@ const api = require('../../index');
 router.post('/', controller.login);
 
 router.put('/',
-    api.verify('email'),
+    api.checkParams([
+      {name: 'email', validator: v => typeof v === 'string' && v.trim().length > 1}
+    ]),
     api.http(controller.resetPassword));
 
 router.delete('/',

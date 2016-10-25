@@ -1,39 +1,48 @@
 'use strict';
 
-const Controller = require('../../Controller');
+const <%= Resource %> = require('../../../lib/User');
+const errors = require('../../../components/errors');
 
-class <%= Resource %>Controller extends Controller {
-  constructor() {
-    super('<%= resource %>', 10);
+module.exports = {
+  index(options) {
+    return Promise.resolve()
+        .then(() => <%= Resource %>.index(options.limit, options.offset))
+  },
+  show(options) {
+    return Promise.resolve()
+        .then(() => <%= Resource %>.show(options.id))
+        .then(<%= resource %> => {
+          if (!<%= resource %>) return Promise.reject(errors.NotFound('<%= resource %> is not found'));
+          return <%= resource %>;
+        })
+  },
+  create(options) {
+    return Promise.resolve()
+        .then(_=> <%= Resource %>.create(options.name))
+        .then(<%= resource %> => Object.assign(<%= resource %>, {statusCode: 201}))
+        .catch(err => {
+          if (err === errors.Codes('Conflict'))
+            return Promise.reject(errors.Conflict(`${options.name} is already existed`));
+          throw err;
+        });
+  },
+  update(options) {
+    return Promise.resolve()
+        .then(_=> <%= Resource %>.update({name: options.name}, options.id))
+        .catch(err => {
+          if (err === errors.Codes('NotFound'))
+            return Promise.reject(errors.NotFound(`<%= resource %> id: ${options.id} is not found`));
+          throw err;
+        });
+  },
+  destroy(options) {
+    return Promise.resolve()
+        .then(_ => <%= Resource %>.destroy(options.id))
+        .then(() => ({statusCode: 204}))
+        .catch(err => {
+          if (err === errors.Codes('NotFound'))
+            return Promise.reject(errors.NotFound(`<%= resource %> id: ${options.id} is not found`));
+          throw err;
+        });
   }
-
-  index() {
-    return super.index()
-
-    // Override method if you need...
-    // options => Promise.resolve('foo');
-  }
-
-  show() {
-    return super.show();
-  }
-
-  create() {
-    return super.create();
-  }
-
-  update() {
-    return super.update();
-  }
-
-  destroy() {
-    return super.destroy();
-  }
-
-  // Create new method ...
-  // newMethod() {
-  //   options => Promise.resolve('bar');
-  // }
-}
-
-module.exports = new <%= Resource %>Controller;
+};

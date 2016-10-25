@@ -6,23 +6,35 @@ const api = require('../../');
 
 router.get('/',
     api.isAuthenticated(),
-    api.http(ctrl.index()));
+    api.http(ctrl.index));
 
 router.get('/:id',
     api.isAuthenticated(),
-    api.http(ctrl.show()));
+    api.checkParams([
+      {name: 'id', validator: id => !isNaN(parseInt(id, 10))}
+    ]),
+    api.http(ctrl.show));
 
 router.post('/',
-    api.verify('name'),
+    api.checkParams([
+      {name: 'name', validator: name => typeof name === 'string' && name.trim().length > 1}
+    ]),
     api.isAuthenticated(),
-    api.http(ctrl.create()));
+    api.http(ctrl.create));
 
 router.put('/:id',
     api.isAuthenticated(),
-    api.http(ctrl.update()));
+    api.checkParams([
+      {name: 'id', validator: id => !isNaN(parseInt(id, 10))},
+      {name: 'name', validator: name => typeof name === 'string' && name.trim().length > 1}
+    ]),
+    api.http(ctrl.update));
 
 router.delete('/:id',
     api.isAuthenticated(),
-    api.http(ctrl.destroy()));
+    api.checkParams([
+      {name: 'id', validator: id => !isNaN(parseInt(id, 10))}
+    ]),
+    api.http(ctrl.destroy));
 
 module.exports = router;

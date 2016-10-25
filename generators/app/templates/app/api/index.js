@@ -4,28 +4,31 @@ const config = require('../config/environment');
 const errors = require('../components/errors');
 const auth = require('../components/auth.service');
 
-const statusCode = err => err.statusCode || 500;
+const statusCode = err => {
+  err = Array.isArray(err) ? err : [err];
+  return err[0].statusCode || 500;
+};
 
-const formatHttpError = err => ({
-  errorCode: err.errorCode || 'InternalServerError',
-  message: err.message || ''
-});
+const formatHttpError = err => {
+  err = Array.isArray(err) ? err : [err];
+  return err.map(e => ({
+    errorCode: e.errorCode || 'InternalServerError',
+    message: e.message || ''
+  }));
+};
+
+const mergeParams = req => {
+  return Object.assign({}, req.params, req.query, req.body, {
+    context: {
+      user: req.user || null
+    }
+  });
+};
 
 module.exports = {
-  /**
-   * Format HTTP Response
-   * @param {Function} apiMethod
-   * @returns {Function} express middleware
-   */
   http(apiMethod) {
     return (req, res, next) => {
-      let options = Object.assign({}, req.params, req.query, req.body, {
-        context: {
-          user: req.user || null
-        }
-      });
-
-      apiMethod(options)
+      apiMethod(mergeParams(req))
           .then(result => {
             let statusCode = result.statusCode || 200;
             let body = result.body || result;
@@ -36,22 +39,25 @@ module.exports = {
     };
   },
 
-  /**
-   * Parameter validator
-   * @param args i.e. 'name', 'age'
-   * @returns {function(*, *, *)}
-   */
-  verify(...args) {
+  checkParams(checkers) {
     return (req, res, next) => {
-      const options = Object.assign({}, req.params, req.query, req.body);
-      const verified = args.every(arg => options.hasOwnProperty(arg));
+      const options = mergeParams(req);
 
-      if (!verified) {
-        let errorMessage = `${args.join(', ')} is(are) required`;
-        return next(errors.BadRequest(errorMessage));
-      }
+      const e = checkers.reduce((ret, checker) => {
+        if (!options.hasOwnProperty(checker.name)) {
+          ret.push(errors.BadRequest(`${checker.name} is required`));
+        }
 
-      next();
+        if (!checker.validator(options[checker.name])) {
+          const e = `${checker.name} is invalid. (${checker.name}: ${options[checker.name]})`;
+          ret.push(errors.BadRequest(e));
+        }
+
+        return ret;
+      }, []);
+
+      if (e.length) next(e);
+      else next();
     };
   },
 
@@ -65,5 +71,3 @@ module.exports = {
     res.status(statusCode(err)).json(formatHttpError(err));
   }
 };
-
-

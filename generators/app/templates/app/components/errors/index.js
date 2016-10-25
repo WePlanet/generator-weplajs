@@ -11,7 +11,7 @@ const WeplaError = (statusCode, defaultErrorCode) => {
   return (errorCode, message) => ({
     statusCode: statusCode,
     errorCode: code(errorCode) || defaultErrorCode,
-    message: message || code(errorCode) ? '' : errorCode
+    message: message ? message : code(errorCode) ? '' : errorCode
   });
 };
 
