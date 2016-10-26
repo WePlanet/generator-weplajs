@@ -1,7 +1,7 @@
 'use strict';
 
 const models = require('../app/models');
-const logTags = require('../app/components/logTags');
+const logTags = require('../app/components/log-tags');
 
 module.exports = options => {
   return models.sequelize.sync(options || {force: false})

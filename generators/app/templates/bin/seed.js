@@ -1,7 +1,7 @@
 'use strict';
 
 const models = require('../app/models');
-const logTags = require('../app/components/logTags');
+const logTags = require('../app/components/log-tags');
 
 const users = [
   {email: '6pack@wepla.net',  password: '123123'}

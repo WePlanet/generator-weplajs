@@ -1,6 +1,6 @@
 'use strict';
 
-const logTags = require('./logTags');
+const logTags = require('./log-tags');
 const checkSwaggerSpec = require('../config/swagger').checkSwaggerSpec;
 const config = require('../config/environment');
 

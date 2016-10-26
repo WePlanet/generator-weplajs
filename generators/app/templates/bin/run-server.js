@@ -1,6 +1,6 @@
 'use strict';
 
-const logTags = require('../app/components/logTags');
+const logTags = require('../app/components/log-tags');
 
 module.exports = (app, port) => {
   return new Promise(resolve => {

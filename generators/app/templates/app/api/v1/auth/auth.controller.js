@@ -1,7 +1,7 @@
 'use strict';
 
 const passport = require('passport');
-const auth = require('../../../components/auth.service');
+const auth = require('../../../components/auth-service.js');
 const errors = require('../../../components/errors');
 const crypto = require('crypto');
 const User = require('../../../lib/User');

@@ -2,7 +2,8 @@
 
 const config = require('../config/environment');
 const errors = require('../components/errors');
-const auth = require('../components/auth.service');
+const auth = require('../components/auth-service.js');
+const v = require('../components/param-validator');
 
 const statusCode = err => {
   err = Array.isArray(err) ? err : [err];
@@ -39,24 +40,18 @@ module.exports = {
     };
   },
 
-  checkParams(checkers) {
+  checkParams(...checkers) {
     return (req, res, next) => {
       const options = mergeParams(req);
 
-      const e = checkers.reduce((ret, checker) => {
-        if (!options.hasOwnProperty(checker.name)) {
-          ret.push(errors.BadRequest(`${checker.name} is required`));
+      const retErrors = checkers.reduce((err, checker) => {
+        if (!options.hasOwnProperty(checker.target)) {
+          return err.concat(errors.BadRequest(`${checker.target} is required`));
         }
-
-        if (!checker.validator(options[checker.name])) {
-          const e = `${checker.name} is invalid. (${checker.name}: ${options[checker.name]})`;
-          ret.push(errors.BadRequest(e));
-        }
-
-        return ret;
+        return err.concat(v.checkerInvoker(checker, options[checker.target]));
       }, []);
 
-      if (e.length) next(e);
+      if (retErrors.length) next(retErrors);
       else next();
     };
   },
