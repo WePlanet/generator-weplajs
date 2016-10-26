@@ -108,5 +108,12 @@ describe('util.js', () => {
     it('should return false if file is not exist', () => {
       assert.equal(util.exist(`${Date.now()}.txt`), false);
     });
-  })
+  });
+
+  describe('sanitize()', () => {
+    it('should replace space to _', () => {
+      assert.equal(util.sanitize('hello world project') === 'hello_world_project', true)
+      assert.equal(util.sanitize(' hello world ') === 'hello_world', true)
+    });
+  });
 });

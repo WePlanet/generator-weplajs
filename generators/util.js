@@ -65,3 +65,4 @@ exports.exist = path => {
   }
 };
 
+exports.sanitize = str => str.trim().replace(/\s/gi, '_');

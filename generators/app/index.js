@@ -19,7 +19,7 @@ module.exports = yeoman.Base.extend({
       name: 'name',
       message: 'Project name?',
       // Defaults to the project's folder name if the input is skipped
-      default: this.appname
+      default: util.sanitize(this.appname)
     }, {
       type: 'input',
       name: 'dbHost',
@@ -29,7 +29,7 @@ module.exports = yeoman.Base.extend({
       type: 'input',
       name: 'dbName',
       message: 'Database name?',
-      default: this.appname
+      default: util.sanitize(this.appname)
     }, {
       type: 'input',
       name: 'dbUser',
