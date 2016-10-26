@@ -4,19 +4,23 @@ const express = require('express');
 const path = require('path');
 const swaggerParser = require('swagger-parser');
 
-const setupSwaggerDocument = (app, version) => {
+const checkSwaggerSpec = () => {
+  const docs = fs
+      .readdirSync(__dirname)
+      .filter(f => /^v\d\.doc\.js$/.test(f))
+      .map(f => require(`./${f}`));
+
+  return Promise
+      .all(docs.map(d => swaggerParser.validate(d)))
+      .then(() => [])
+      .catch(err => Promise.resolve([err]))
+};
+
+const setupSwaggerDocRoutes = (app, version) => {
   app.get(`/swagger/doc/${version}`, (req, res) => {
     let doc = require(`./${version}.doc.js`);
     doc.host = req.headers.host;
-
-    swaggerParser.validate(doc, (err, api) => {
-      if (err) {
-        console.error(err);
-        return res.json({error: err})
-      }
-
-      res.json(api);
-    });
+    res.json(doc);
   });
 };
 
@@ -29,9 +33,11 @@ const setupSwaggerUi= app => {
   }, express.static(path.join(__dirname, '../../../node_modules/swagger-ui/dist')));
 };
 
-module.exports = function setup(app) {
+module.exports = app => {
   // Swagger document path will be here
-  setupSwaggerDocument(app, 'v1');
+  setupSwaggerDocRoutes(app, 'v1');
 
   setupSwaggerUi(app);
 };
+
+module.exports.checkSwaggerSpec = checkSwaggerSpec;

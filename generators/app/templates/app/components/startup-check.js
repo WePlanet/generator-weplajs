@@ -1,38 +1,39 @@
 'use strict';
 
 const logTags = require('./logTags');
+const checkSwaggerSpec = require('../config/swagger').checkSwaggerSpec;
+const config = require('../config/environment');
 
-let config = require('../config/environment');
+const checkEnvVars = _=> {
+  const checkList = config.checkList || [];
+  let errors = [];
 
-const startupCheck = {
-  check: () => {
-    let errors = startupCheck._environmentVariables();
-    if (errors.length) {
-      startupCheck._printErrors(errors);
-      process.exit();
-    }
-  },
-
-  _environmentVariables: () => {
-    const checkList = config.checkList || [];
-    let errors = [];
-
-    return checkList.reduce((result, checkItem) => {
-      let error = startupCheck._environmentVariable(checkItem);
-      if (error) result.push(error);
-      return result;
-    }, errors);
-  },
-
-  _environmentVariable: envName => {
-    return (!process.env.hasOwnProperty(envName) || !process.env[envName]) ?
-        `${envName} is required` :
-        false;
-  },
-
-  _printErrors: errors => {
-    errors.forEach(error => console.error(logTags.StartupError, error));
-  }
+  return checkList.reduce((result, checkItem) => {
+    let error = checkEnvVar(checkItem);
+    if (error) result.push(error);
+    return result;
+  }, errors);
 };
 
-module.exports = startupCheck.check;
+const checkEnvVar = envName => {
+  return (!process.env.hasOwnProperty(envName) || !process.env[envName]) ?
+      `${envName} is required` :
+      false;
+};
+
+const printErrors = errors => {
+  errors.forEach(error => console.error(logTags.StartupError, error));
+};
+
+
+module.exports = _=> {
+  let errors = [];
+  return Promise.resolve([])
+      .then(() => checkEnvVars())
+      .then(e => errors = errors.concat(e))
+      .then(() => checkSwaggerSpec())
+      .then(e => errors = errors.concat(e))
+      .then(() => {
+        if (errors.length) { printErrors(errors); process.exit(); }
+      });
+};
