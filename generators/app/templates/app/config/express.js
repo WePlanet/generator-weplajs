@@ -2,6 +2,7 @@
 
 const morgan = require('./morgan');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 
 const expressSettings = app => {
   const env = app.get('env');
