@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const expressSettings = app => {
   const env = app.get('env');
 
+  app.use(cors());
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
 

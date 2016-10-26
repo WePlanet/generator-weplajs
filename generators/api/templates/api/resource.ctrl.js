@@ -1,6 +1,6 @@
 'use strict';
 
-const <%= Resource %> = require('../../../lib/User');
+const <%= Resource %> = require('../../../lib/<%= Resource %>');
 const errors = require('../../../components/errors');
 
 module.exports = {
