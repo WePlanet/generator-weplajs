@@ -1,9 +1,9 @@
 "use strict";
 
-const path = require('path');
-const util = require('../generators/util');
 const fs = require('fs');
-const assert = require('assert');
+const path = require('path');
+const should = require('should');
+const util = require('../generators/util');
 
 describe('util.js', () => {
   describe('rewrite()', () => {
@@ -30,7 +30,7 @@ describe('util.js', () => {
       const lines = fs.readFileSync(filePath, 'utf8')
                       .split('\n');
       const needleIdx = lines.findIndex((l, i) => l.indexOf(args.needle) > -1);
-      assert.equal(lines[needleIdx + 1].indexOf(args.splicable[0]) > -1, true);
+      lines[needleIdx + 1].indexOf(args.splicable[0]).should.be.greaterThan(-1);
     });
 
     it('should origin text if already has splicable', () => {
@@ -41,7 +41,7 @@ describe('util.js', () => {
           'already here!'
         ]
       });
-      assert.equal(text, fs.readFileSync(filePath, 'utf8'));
+      fs.readFileSync(filePath, 'utf8').should.be.equal(text);
     })
   });
 
@@ -62,7 +62,7 @@ describe('util.js', () => {
         removeStr: 'Remove it'
       });
       r = fs.readFileSync(filePath, 'utf8');
-      assert.equal(true, r.indexOf('Remove it') === -1)
+      r.indexOf('Remove it').should.be.equal(-1);
     });
   });
 
@@ -85,13 +85,13 @@ describe('util.js', () => {
         newSubStr: '() =>'
       });
       r = fs.readFileSync(filePath, 'utf8');
-      assert.equal(true, r.indexOf('function ()') === -1)
+      r.indexOf('function ()').should.be.equal(-1);
     });
   });
 
   describe('capitalize()', () => {
     it('should capitalzie firest charactor of input', () => {
-      assert.equal(util.capitalize('test'), 'Test');
+      util.capitalize('test').should.be.equal('Test');
     });
   });
 
@@ -102,18 +102,18 @@ describe('util.js', () => {
 
 
     it('should return true if file is not exist', () => {
-      assert.equal(util.exist(path), true);
+      util.exist(path).should.be.true;
     });
 
     it('should return false if file is not exist', () => {
-      assert.equal(util.exist(`${Date.now()}.txt`), false);
+      util.exist(`${Date.now()}.txt`).should.be.false;
     });
   });
 
   describe('sanitize()', () => {
     it('should replace space to _', () => {
-      assert.equal(util.sanitize('hello world project') === 'hello_world_project', true)
-      assert.equal(util.sanitize(' hello world ') === 'hello_world', true)
+      util.sanitize('hello world project').should.be.equal('hello_world_project');
+      util.sanitize(' hello world ').should.be.equal('hello_world');
     });
   });
 });
