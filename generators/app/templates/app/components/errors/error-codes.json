@@ -1,6 +1,24 @@
 [
   { "// Error code will be here": true },
   {
+    "code": "NameLength",
+    "message": {
+      "en": "Name should be greater than 2"
+    }
+  },
+  {
+    "code": "EmailPattern",
+    "message": {
+      "en": "Email pattern is invalid"
+    }
+  },
+  {
+    "code": "PasswordLength",
+    "message": {
+      "en": "password length should be greater than 5"
+    }
+  },
+  {
     "code": "NotFound",
     "message": {
       "en": "Not found resource"

@@ -2,15 +2,19 @@
 
 const router = require('express').Router();
 const controller = require('./auth.controller.js');
-const auth = require('../../../components/auth-service.js');
 const api = require('../../index');
+const auth = require('../../../components/auth-service.js');
+const v = require('../../../components/param-validator');
+const e = require('../../../components/errors');
 
-router.post('/', controller.login);
+router.post('/',
+    api.checkParams(
+        v.genChecker('email', e.get('EmailPattern'), v.str, v.email),
+        v.genChecker('password', e.get('PasswordLength'), v.str, v.lenGt(5))),
+    controller.login);
 
 router.put('/',
-    api.checkParams([
-      {name: 'email', validator: v => typeof v === 'string' && v.trim().length > 1}
-    ]),
+    api.checkParams(v.genChecker('email', v.str, v.email)),
     api.http(controller.resetPassword));
 
 router.delete('/',

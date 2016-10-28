@@ -38,7 +38,7 @@ module.exports = {
         })
         .use((err, req, res, next) => {
           if (err.name === 'UnauthorizedError') {
-            next(errors.Unauthorized(errors.Codes('InvalidToken')));
+            next(errors.Unauthorized(errors.code('InvalidToken')));
           }
         })
         .use((req, res, next) => {
@@ -46,12 +46,12 @@ module.exports = {
             where: {id: req.user.id}
           }).then((user) => {
             if (!user) {
-              return next(new errors.Unauthorized(errors.Codes('NotFoundByToken')));
+              return next(errors.Unauthorized(errors.code('NotFoundByToken')));
             }
 
             req.user = user.get({plain: true});
             if (req.user.accessToken !== req.query.accessToken) {
-              return next(new errors.Unauthorized(errors.Codes('AuthByOtherDevice')));
+              return next(errors.Unauthorized(errors.code('AuthByOtherDevice')));
             }
 
             delete req.user.password;

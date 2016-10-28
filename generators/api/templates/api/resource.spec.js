@@ -89,7 +89,7 @@ describe('/<%= version %>/<%= resource %>s', () => {
           .expect(400)
           .end((err, res) => {
             if (err) throw err;
-            res.body[0].should.have.property('errorCode', 'BadRequest');
+            res.body[0].should.have.property('errorCode', 'NameLength');
             done();
           });
     });
@@ -101,7 +101,7 @@ describe('/<%= version %>/<%= resource %>s', () => {
           .expect(409)
           .end((err, res) => {
             if (err) throw err;
-            res.body[0].should.have.property('errorCode', errors.Codes('Conflict'));
+            res.body[0].should.have.property('errorCode', errors.code('Conflict'));
             done();
           });
     });

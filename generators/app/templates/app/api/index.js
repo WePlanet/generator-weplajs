@@ -14,7 +14,8 @@ const formatHttpError = err => {
   err = Array.isArray(err) ? err : [err];
   return err.map(e => ({
     errorCode: e.errorCode || 'InternalServerError',
-    message: e.message || ''
+    message: e.message || '',
+    errorLog: e.errorLogs || []
   }));
 };
 
@@ -43,12 +44,17 @@ module.exports = {
   checkParams(...checkers) {
     return (req, res, next) => {
       const options = mergeParams(req);
-
       const retErrors = checkers.reduce((err, checker) => {
-        if (!options.hasOwnProperty(checker.target)) {
-          return err.concat(errors.BadRequest(`${checker.target} is required`));
+        if (!v.exist(checker.target)(options)) {
+          const elogs = [v.exist(checker.target).log];
+          err = err.concat(errors.BadRequest(null, null, elogs));
+        } else {
+          const elogs = v.checkerInvoker(checker.vdts, options[checker.target]);
+          if (elogs.length) {
+            err = err.concat(errors.BadRequest(checker.e.code, checker.e.message, elogs));
+          }
         }
-        return err.concat(v.checkerInvoker(checker, options[checker.target]));
+        return err;
       }, []);
 
       if (retErrors.length) next(retErrors);
@@ -63,6 +69,7 @@ module.exports = {
   },
 
   error(err, req, res, next) {
+    if (statusCode(err) >= 500) console.error(err);
     res.status(statusCode(err)).json(formatHttpError(err));
   }
 };

@@ -7,7 +7,7 @@ const syncDB = require('../../../../bin/sync-database');
 const models = require('../../../models');
 
 describe('/v1/auth', function () {
-  let user = {email: '6pack@wepla.net', password: 123123};
+  let user = {email: '6pack@wepla.net', password: '123123'};
   before('Init database', () => syncDB({force: true}));
   before('Insert user', () => models.User.create(user));
 
