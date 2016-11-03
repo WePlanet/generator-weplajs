@@ -6,14 +6,11 @@
 언제든지 깃헙 [이슈](https://github.com/WePlanet/generator-weplajs/issues/new)에 
 등록해 주세요.
 
-## 제너레이터
+## 명령어
 
-- App
-  - weplajs
-- API
-  - weplajs:api
-- Error code
-  - weplajs:error
+* `weplajs`: 어플리케이션 설치
+* `weplajs:api`: API 추가 
+* `weplajs:error`: 에러코드 추가 
 
 
 ## 설치
@@ -26,7 +23,6 @@ generator-weplajs를 여러분의 컴퓨터에 설치하세요.
 npm install -g yo
 npm install -g generator-weplajs
 ```
-
 
 그리고나서 여러분의 새로운 프로젝트를 만들어 보세요.
 
@@ -48,7 +44,6 @@ mysql> CREATE DATABASE mydb_development;
 mysql> CREATE DATABASE mydb_test;
 mysql> CREATE DATABASE mydb_production;
 ```
-
 
 ```bash
 npm start
