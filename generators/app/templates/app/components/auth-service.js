@@ -14,7 +14,6 @@ module.exports = {
       expiresIn: config.accessToken.expireSeconds
     });
   },
-
   decodeToken() {
     return (req, res, next) => {
       if (req.query && req.query.hasOwnProperty('accessToken')) {
@@ -26,7 +25,6 @@ module.exports = {
       next();
     }
   },
-
   isAuthenticated() {
     return compose()
         .use((req, res, next) => {
@@ -58,5 +56,14 @@ module.exports = {
             next();
           }).catch(err => next(err));
         });
+  },
+  checkApiKey() {
+    return (req, res, next) => {
+      if (process.env.NODE_ENV !== 'production')
+        return next();
+      if (req.query.apiKey !== config.apiKey)
+        throw errors.Unauthorized('UnmatchedApiKey');
+      next();
+    };
   }
 };

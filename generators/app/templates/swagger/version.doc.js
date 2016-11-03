@@ -119,7 +119,13 @@ module.exports = {
   produces: [
     'application/json'
   ],
-
+  securityDefinitions: {
+    api_key: {
+      type: 'apiKey',
+      name: 'apiKey',
+      in: 'query'
+    }
+  },
   paths: paths,
   parameters: parameters,
   definitions: definitions

@@ -13,6 +13,8 @@ module.exports = {
     syncForce: true
   },
 
+  apiKey: process.env.API_KEY || '<%= apiKey %>',
+
   accessToken: {
     secret: 's3cr2t-producsion',
     expireSeconds: 60 * 60 * 24 * 30 * 12 // 12 months
@@ -26,4 +28,3 @@ module.exports = {
     'DB_HOST'
   ]
 };
-

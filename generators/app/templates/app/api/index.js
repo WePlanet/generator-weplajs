@@ -40,7 +40,6 @@ module.exports = {
           .catch(err => next(err));
     };
   },
-
   checkParams(...checkers) {
     return (req, res, next) => {
       const options = mergeParams(req);
@@ -61,15 +60,12 @@ module.exports = {
       else next();
     };
   },
-
-  isAuthenticated: auth.isAuthenticated,
-
   error404(req, res, next) {
     next(errors.NotFound());
   },
-
   error(err, req, res, next) {
     if (statusCode(err) >= 500) console.error(err);
     res.status(statusCode(err)).json(formatHttpError(err));
-  }
+  },
+  isAuthenticated: auth.isAuthenticated
 };

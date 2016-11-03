@@ -40,6 +40,11 @@ module.exports = yeoman.Base.extend({
       name: 'dbPass',
       message: 'Database password?',
       default: 'root'
+    }, {
+      type: 'input',
+      name: 'apiKey',
+      message: 'api_key for the swagger-ui',
+      default: `${util.sanitize(this.appname)}ApiKey`
     }];
 
     return this.prompt(prompts).then(props => {
@@ -56,7 +61,8 @@ module.exports = yeoman.Base.extend({
           dbName: this.props.dbName,
           dbUser: this.props.dbUser,
           dbPass: this.props.dbPass,
-          dbHost: this.props.dbHost
+          dbHost: this.props.dbHost,
+          apiKey: this.props.apiKey
         });
     this.fs.copy(
         this.templatePath('bin'),

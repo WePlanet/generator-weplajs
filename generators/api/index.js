@@ -103,7 +103,7 @@ module.exports = yeoman.Base.extend({
       file: 'app/routes.js',
       needle: '// Insert routes below',
       splicable: [
-        `app.use('/${v}/${r}s', require('./api/${v}/${r}'));`
+        `app.use('/${v}/${r}s', auth.checkApiKey(), require('./api/${v}/${r}'));`
       ]
     });
 
