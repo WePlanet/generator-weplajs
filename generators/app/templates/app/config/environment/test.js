@@ -13,11 +13,8 @@ module.exports = {
   },
 
   database: {
-    username: '<%= dbUser %>',
-    password: '<%= dbPass %>',
-    database: '<%= dbName %>_test',
-    host: '<%= dbHost %>',
-    dialect: 'mysql',
+    dialect: 'sqlite',
+    storage: ':memory:',
     logging: false,
     syncForce: true
   }

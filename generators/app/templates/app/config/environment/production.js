@@ -6,7 +6,7 @@ module.exports = {
   database: {
     username: process.env.DB_NAME || '<%= dbUser %>',
     password: process.env.DB_USER ||'<%= dbPass %>',
-    database: process.env.DB_PASS ||'<%= dbName %>_production',
+    database: process.env.DB_PASS ||'<%= dbName %>',
     host: process.env.DB_HOST ||'<%= dbHost %>',
     dialect: 'mysql',
     logging: false,

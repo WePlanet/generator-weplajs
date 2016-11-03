@@ -5,11 +5,8 @@ module.exports = {
   port: process.env.PORT || 3000,
 
   database: {
-    username: '<%= dbUser %>',
-    password: '<%= dbPass %>',
-    database: '<%= dbName %>_development',
-    host: '<%= dbHost %>',
-    dialect: 'mysql',
+    dialect: 'sqlite',
+    storage: 'db.development.sqlite',
     logging: console.log,
     syncForce: true
   },
