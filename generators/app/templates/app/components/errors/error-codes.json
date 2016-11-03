@@ -1,6 +1,9 @@
 [
   { "// Error code will be here": true },
   {
+    "code": "UnmatchedApiKey"
+  },
+  {
     "code": "NameLength",
     "message": {
       "en": "Name should be greater than 2"

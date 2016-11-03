@@ -8,11 +8,18 @@
  * @constructor
  */
 const WeplaError = (statusCode, defaultErrorCode) => {
+  /**
+   * Usage:
+   *   fun('NotFound')
+   *   fun('User is not found')
+   *   fun(errors.code('NoUser'), 'User is not found')
+   *   fun(errors.code('NoUser'), 'User is not found', ['log1', 'log2', ...])
+   */
   return (errorCode, message, errorLogs) => {
     return {
       statusCode: statusCode,
-      errorCode: get(errorCode) ? get(errorCode).code : errorCode || defaultErrorCode,
-      message: message || get(errorCode) ? get(errorCode).message : '',
+      errorCode: get(errorCode) ? get(errorCode).code : defaultErrorCode,
+      message: message ? message : get(errorCode) ? get(errorCode).message : '',
       errorLogs: errorLogs || []
     }
   };
