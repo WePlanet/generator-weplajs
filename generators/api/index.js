@@ -111,7 +111,7 @@ module.exports = yeoman.Base.extend({
       file: `app/config/swagger/index.js`,
       needle: this.config.get('swagger.docPahNeedle'),
       splicable: [
-        `setupSwaggerDocument(app, '${v}');`
+        `setupSwaggerDocRoutes(app, '${v}');`
       ]
     });
 
