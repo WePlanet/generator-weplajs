@@ -32,19 +32,6 @@ yo weplajs
 
 ## 실행
 
-새 프로젝트를 실행하기 전에 데이터베이스 생성해야 합니다. 
-요멘 제너레이터 프롬프트에서 입력한 데이터베이스 이름 뒤에 개발환경 정보를 
-나타내는 문자열이 포함된 이름의 데이터베이스를 생성해야 합니다.
-
-예를들어 foo라는 데이터베이스 이름을 입력했다면 foo_development, foo_test, 
-foo_production 데이터베이스를 추가 하세요.
-
-```
-mysql> CREATE DATABASE mydb_development;
-mysql> CREATE DATABASE mydb_test;
-mysql> CREATE DATABASE mydb_production;
-```
-
 ```bash
 npm start
 [STARTUP_INFO] Sync Database {"force":true}
