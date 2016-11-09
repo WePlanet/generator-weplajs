@@ -72,6 +72,9 @@ module.exports = yeoman.Base.extend({
         this.destinationPath('package.json'), {
           name: this.props.name
         });
+    this.fs.copy(
+        this.templatePath('.gitignore'),
+        this.destinationPath('.gitignore'));
     this.fs.copyTpl(
         this.templatePath('README.md'),
         this.destinationPath('README.md'), {
