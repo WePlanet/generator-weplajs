@@ -48,8 +48,8 @@ module.exports = {
             }
 
             req.user = user.get({plain: true});
-            if (req.user.accessToken !== req.query.accessToken) {
-              return next(errors.Unauthorized(errors.code('AuthByOtherDevice')));
+            if (`Bearer ${req.user.accessToken}` !== req.headers.authorization) {
+              return next(errors.Unauthorized(errors.code('InvalidToken')));
             }
 
             delete req.user.password;

@@ -32,7 +32,7 @@ module.exports = {
   
   logout(options) {
     return Promise.resolve()
-        .then(() => User.update({accessToken: ''}, options.context.user.id))
+        .then(() => User.update({accessToken: '', id: options.context.user.id}))
         .then(user => {
           return { user: user }
         });

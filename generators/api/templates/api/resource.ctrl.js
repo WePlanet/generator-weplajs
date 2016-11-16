@@ -6,11 +6,11 @@ const errors = require('../../../components/errors');
 module.exports = {
   index(options) {
     return Promise.resolve()
-        .then(() => <%= Resource %>.index(options.limit, options.offset))
+        .then(() => <%= Resource %>.index(options))
   },
   show(options) {
     return Promise.resolve()
-        .then(() => <%= Resource %>.show(options.id))
+        .then(() => <%= Resource %>.show(options))
         .then(<%= resource %> => {
           if (!<%= resource %>) return Promise.reject(errors.NotFound('<%= resource %> is not found'));
           return <%= resource %>;
@@ -18,7 +18,7 @@ module.exports = {
   },
   create(options) {
     return Promise.resolve()
-        .then(_=> <%= Resource %>.create(options.name))
+        .then(_=> <%= Resource %>.create(options))
         .then(<%= resource %> => Object.assign(<%= resource %>, {statusCode: 201}))
         .catch(err => {
           if (err === errors.code('Conflict'))
@@ -28,7 +28,7 @@ module.exports = {
   },
   update(options) {
     return Promise.resolve()
-        .then(_=> <%= Resource %>.update({name: options.name}, options.id))
+        .then(_=> <%= Resource %>.update(options))
         .catch(err => {
           if (err === errors.code('NotFound'))
             return Promise.reject(errors.NotFound(`<%= resource %> id: ${options.id} is not found`));
@@ -37,7 +37,7 @@ module.exports = {
   },
   destroy(options) {
     return Promise.resolve()
-        .then(_ => <%= Resource %>.destroy(options.id))
+        .then(_ => <%= Resource %>.destroy(options))
         .then(() => ({statusCode: 204}))
         .catch(err => {
           if (err === errors.code('NotFound'))

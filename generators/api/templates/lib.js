@@ -2,49 +2,41 @@
 
 const models = require('../models');
 const errors = require('../components/errors');
-
 const parseStr = str => {
   const ret = parseInt(str, 10);
   return isNaN(ret) ? undefined : ret;
 };
-
-const index = (limit, offset) => {
+const index = options => {
   return models['<%= Resource %>'].findAll({
-    limit: parseStr(limit),
-    offset: parseStr(offset)
+    limit: parseStr(options.limit),
+    offset: parseStr(options.offset)
   });
 };
-
-const show = id => {
+const show = options => {
   return models['<%= Resource %>'].findOne({
     where: {
-      id: parseStr(id)
+      id: parseStr(options.id)
     }
   });
 };
-
-const create = name => {
-  return models['<%= Resource %>'].create({
-    name: name
-  }).catch(err => {
+const create = options => {
+  return models['<%= Resource %>'].create(options).catch(err => {
     if (err.name  === 'SequelizeUniqueConstraintError') {
       return Promise.reject(errors.code('Conflict'));
     }
     return Promise.reject(err);
   });
 };
-
-const update = (body, id) => {
-  id = parseStr(id)
+const update = (options) => {
   return Promise.resolve()
-      .then(() => show(id))
-      .then(user => {
-        if (!user) throw errors.NotFound();
+      .then(() => show(options))
+      .then(resource => {
+        if (!resource) throw errors.NotFound();
 
-        for (let key in body) user[key] = body[key]
-        return user.save();
+        for (let key in options) resource[key] = options[key]
+        return resource.save();
       })
-      .then(() => show(id))
+      .then(() => show(options))
       .catch(err => {
         if (err.name === 'SequelizeValidationError') {
           return Promise.reject(errors.BadRequest(err.message));
@@ -57,21 +49,13 @@ const update = (body, id) => {
         return Promise.reject(err);
       });
 };
-
-const destroy = id => {
+const destroy = options => {
   return models['<%= Resource %>'].destroy({
     where: {
-      id: parseStr(id)
+      id: parseStr(options.id)
     }
   }).then(count => {
     return count ? Promise.resolve() : Promise.reject(errors.code('NotFound'));
   });
 };
-
-module.exports = {
-  index: index,
-  show: show,
-  create: create,
-  update: update,
-  destroy: destroy,
-};
+module.exports = {index, show, create, update, destroy};
