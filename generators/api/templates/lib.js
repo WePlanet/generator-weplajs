@@ -30,11 +30,11 @@ const create = options => {
 const update = (options) => {
   return Promise.resolve()
       .then(() => show(options))
-      .then(resource => {
-        if (!resource) throw errors.NotFound();
+      .then(<%= resource %> => {
+        if (!<%= resource %>) throw errors.NotFound();
 
-        for (let key in options) resource[key] = options[key]
-        return resource.save();
+        for (let key in options) <%= resource %>[key] = options[key]
+        return <%= resource %>.save();
       })
       .then(() => show(options))
       .catch(err => {
