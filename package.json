@@ -1,6 +1,6 @@
 {
   "name": "generator-weplajs",
-  "version": "0.0.14",
+  "version": "0.0.25",
   "description": "REST API server by expressjs framework ",
   "homepage": "https://github.com/WePlanet/generator-weplajs",
   "bugs": "https://github.com/WePlanet/generator-weplajs/issues",

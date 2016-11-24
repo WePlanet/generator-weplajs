@@ -73,7 +73,7 @@ module.exports = yeoman.Base.extend({
           name: this.props.name
         });
     this.fs.copy(
-        this.templatePath('.gitignore'),
+        this.templatePath('gitignore'),
         this.destinationPath('.gitignore'));
     this.fs.copyTpl(
         this.templatePath('README.md'),
