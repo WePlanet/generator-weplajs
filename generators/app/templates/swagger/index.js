@@ -3,6 +3,7 @@
 const express = require('express');
 const path = require('path');
 const swaggerParser = require('swagger-parser');
+const fs = require('fs');
 
 const checkSwaggerSpec = () => {
   const docs = fs
